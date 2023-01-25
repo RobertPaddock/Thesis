@@ -49,10 +49,12 @@ It is significant that the dispersion equation for EM waves in a plasma contains
 
 \section{Mathematical formulations of plasmas}
 
-\subsection{The plasma distribution function $f$}
+\subsection{The plasma distribution function}
 Plasmas can be described in a number of different ways, each of which has their limitations. Here we will consider the full kinetic description of plasmas, and then highlight how the fluid approximation (which is used in radiation hydrodynamics codes to simulate plasmas over the timescales necessary for ICF) is obtained from this.
 
-Variables such as the density of a plasma vary with it's position $\vec{r}$ (describing the three spatial dimensions $x,y,z$) and the time t. However, to fully describe the plasma, it's velocity distribution must also be considered. This is described by the `velocity distribution function' (or just the `distribution function') \begin{equation} f = f(\vec{r}, \vec{v}, t), \end{equation} where $\vec{v}$ is the velocity (consisting of the three dimensions consisting of $v_x, v_y, v_z$). $f$ can be used to find the number of particles per unit volume at position $\vec{r}$ and time $t$ with velocity components in a small range of velocities between $\vec{v}$ and $\vec{v} + d\vec{v}$ ($v_x$ and $v_x + dv_x$, $v_y$ and $v_y + dv_y$, $v_z$ and $v_z + dv_z$) through $f(\vec{r}, \vec{v}, t) d\vec{v}$.
+Variables such as the density of a plasma vary with it's position $\vec{r}$ (describing the three spatial dimensions $x,y,z$) and the time t. However, to fully describe the plasma, it's velocity distribution must also be considered. This is described by the `velocity distribution function' (or just the `distribution function') 
+\begin{equation} f = f(\vec{r}, \vec{v}, t), \end{equation} 
+where $\vec{v}$ is the velocity (consisting of the three dimensions consisting of $v_x, v_y, v_z$). $f$ can be used to find the number of particles per unit volume at position $\vec{r}$ and time $t$ with velocity components in a small range of velocities between $\vec{v}$ and $\vec{v} + d\vec{v}$ ($v_x$ and $v_x + dv_x$, $v_y$ and $v_y + dv_y$, $v_z$ and $v_z + dv_z$) through $f(\vec{r}, \vec{v}, t) d\vec{v}$.
 
 The density $n$ of the plasma can thus be obtained by integrating $f$ over the entire velocity distribution,
 \begin{equation} n(\vec{r}, t) = \int^{\infty}_{-\infty} f(\vec{r}, \vec{v}, t) d\vec{v}  = \int^{\infty}_{-\infty} \int^{\infty}_{-\infty} \int^{\infty}_{-\infty} f(\vec{r}, \vec{v}, t) dv_x dv_y dv_z. \end{equation}
@@ -259,7 +261,7 @@ where $\nu$ is the specific volume, $\nu = \frac{1}{\rho}$. Substituting Equatio
 \begin{equation} \epsilon_1 - \epsilon_0 = \frac{1}{2}(P_0 + P_1)(\nu_0 - \nu_1).\label{eqn: Hugoniot relation} \end{equation}
 
 Equation \ref{eqn: Hugoniot relation} is known as the Hugoniot relation. The Hugoniot curve can also be defined, 
-\begin{equation} P_1 = H(P_0, \nu_0, \nu_1),\label{eqn: Hugoniot relation} \end{equation}
+\begin{equation} P_1 = H(P_0, \nu_0, \nu_1), \end{equation}
 which has a form which depends on that of the specific energy function $\epsilon(P, \nu)$. The form of the Hugoniot curve is notable as it is a function of two parameters - the initial state of the material $(P_0, \nu_0)$. The significance of this will be discussed in the next section.
 
 \subsection{The Hugoniot} \label{The Hugoniot theory}
