@@ -1,0 +1,420 @@
+%\begin{savequote}[8cm]
+%Alles Gescheite ist schon gedacht worden.\\
+%Man muss nur versuchen, es noch einmal zu denken.
+
+%All intelligent thoughts have already been thought;\\
+%what is necessary is only to try to think them again.
+ % \qauthor{--- Johann Wolfgang von Goethe \cite{von_goethe_wilhelm_1829}}
+%\end{savequote}
+
+\chapter{\label{ch-lowCR}Low convergence ratio implosions}
+
+\minitoc
+
+\section{Introduction}
+
+ICF targets with a conventional DT ice layer require cryogenic temperatures below the 19 K freezing point of DT. This leads to a low DT vapour pressure in the central void of the capsule, and thus tends to lead to large capsule convergence ratio implosions. In an ideal (or 1D) scenario this is desireable - higher convergence leads to higher densities and temperatures, and thus increased fusion performance. However, high convergence ratio unfortunately also leads to increased susceptibility to instability growth, which prevents such strong performance from being achieved in practice.
+
+A number of recent experiments have investigated the use of wetted-foam capsules for ICF. One of the key benefits of such capsules are the level of control they provide over the convergence ratio of the implosion, and initial experiments performed at the National Ignition Facility demonstrated that such capsules could be used to generate low convergence-ratio implosions that showed good agreement with hydrodynamic performance.
+
+A lot of ICF designs target high-convergence ratio, but are then afflicted with high instability growth that degrades the performance. Operating at low convergence-ratio suggests an alternative approach; operating in a regime where the ideal performance is lower, but the agreement with experiment is inherently much higher. Such an approach could be viable, depending on whether sufficiently high fusion-performance could be obtained in such a regime - something that had not been explored in detail before. 
+
+One of the benefits of this approach is that by operating in a regime where instability growth is minimised, performance is expected to be close to one-dimensional. This means one-dimensional radiation hydrodynamic simulations can be expected to be reasonably accurate in simulating these implosions. This is a significant advantage; 1D simulations are relatively easy to perform and quick to run, which means they can be ran in large numbers to effectively explore the available parameter space.
+
+In this chapter, the a large-scale simulation campaign described to explore the performance of low-convergence ratio ICF implosions is described. In \hl{Section}, the results of previous experiments investigating wetted foam implosions are discussed. In \hl{Section}, the different parameters influencing instability growth is considered - culminating in four criteria to minimise instability growth, and thus (hopefully) ensuring that 1D simulations are reasonably accurate. Then, in \hl{Section}, a range of key parameters used for this work are discussed and defined (so that they can be quantified for the simulated implosions). The specifics of the simulations are then discussed. In section \hl{Section} the specific capsule design and laser profile to be simulated are described, and the parameters which will be investigated and optimised are highlighted. Then, in section \hl{Section}, the details of how the capsules are simulated in the code (Hyades) are then provided. The procedure for the simulation campaign (and how the different implosions are optimised) is then discussed in \hl{Section}, before the results are presented in \hl{Section}. Finally, the limitations of this approach are considered, and ways that the work could be developed further are discussed.
+
+
+
+%One of the promising possibilities that wetted foam capsules enable is a degree of control over the convergence ratio that is not possible with conventional capsules. Wetted-foam targets contain liquid DT wicked in a carbon foam. They are thus fielded at higher temperatures between 20 and 26 K (where DT is in liquid form), which in turn leads to higher vapour pressures ranging from 0.6 \unit{\milli\gram\per\centi\meter\cubed} to 4.0 \unit{\milli\gram\per\centi\meter\cubed}. These higher vapour pressures enable lower convergence ratios to be achieved. Not only this, but it also provides a way to control the convergence ratio largely independently from other implosion properties, by varying the temperature at which the capsule is fielded \footnote{Doing this has a small impact on some of the other properties, but this is essentially negligible.}. This enables the impact of convergence ratio on an ICF implosion to be explored.
+
+%The first wetted foam target was shot on the NIF in 2016, in shot N160421. The results were interesting; neutron yield of \hl{VALUES} were achieved, which were promising and suggested a good level of performance could be achieved with these capsules. More promising however was the fact that agreement between the experimental and simulated results were high, suggesting a capsule that was performing roughly as expected, and without significant instability growth. Further shots presented by Zylstra \textit{et al.} confirmed this, and showed explicitly the link with convergence ratio. At low convergence ratio, the agreement with 2D simulations were very high, and as this increased the agreement rapidly began to get worse. 
+
+%This raised the prospect of a new, alternative approach to ICF experiments. Previous approaches had targeted high convergence ratio implosions with very large gains, but failed to achieve them due to poor agreement with simulations - efforts were then ongoing to improve this agreement by reducing the instability growth. The alternative to this would be to operate at low-convergence ratio, in a regime where the agreement between simulation and experiment inherently appeared to be high. If performance could be explored in this regime in simulations and a high-performing design could be identified, then it could be reasonably expected that the experimental performance would also be high. The question was whether it would be possible to achieve sufficiently high performance at low convergence ratio to make such an approach worthwhile.
+
+%The other benefit of this approach was that these low convergence ratio implosions were exhibiting low instability growth. This meant that the performance of such implosions could be reasonably well approximated as one-dimensional, allowing 1D simulations to be used to explore the performance. As 1D codes are relatively simple and quick to run (particularly compared to their 2D or 3D equivalents), this meant that a large-scale simulation campaign would be feasible.
+
+%Such a campaign was therefore performed to explore the possible performance of wetted-foam capsules at low convergence ratio at a range of laser energies, and is described in this chapter. First, some of the previous results of low-convergence work is discussed, and the NIF shots are considered in further detail. Secondly, in an attempt to ensure instability growth is minimal and thus 1D simulations are accurate, other 1D implosion properties that correlate with instability growth are considered; a low-instability regime is thus identified which will set the boundaries for this campaign. Definitions of key parameters are then defined, describing the key metrics through which the simulated implosions will be judged.
+
+S%ection then discussed the form of the implosions considered, in terms of the laser profile and the capsule design. The simulation code and paramters used to simulate these implosions are then discussed in SECTION, before SECTION discusses how the simulation campaign was actually performed and conducted. The results achieved in this campaign are then presented and discussed in SECTION, before a discussion of the limitations of this campaign and the efforts taken to model the impact of these. Finally, a discussion on benchmarking of the code is included.
+
+\section{Wetted foam capsules and low convergence ratio}
+
+\subsection{Experimental results}
+
+The first DT-wetted foam shot on the NIF was performed by Olson \textit{et al.} in 2016, and was designated N160421 \cite{Olson2016}. The results were interesting; a promising $(4.5 \pm 0.1) \times 10^{14}$ neutrons were generated, which suggested that a good level of performance could be achieved with these capsules. More impressive however was the close agreement between the simulation and experiment. 2D simulations were able to match a wide range of implosion metrics (including temperatures, bang time, hotspot radius and inferred pressures) to within the experimental error. These metrics were also very well described even by a 1D RAGE simulation (with a mix model included), which gave a ratio between experimental and simulated yield of nearly 80 \%. 
+
+N160421, and subsequent wetted-foam shots N160626 and N161204, were then discussed by Zylstra \textit{et al.} \cite{Zylstra2018}. These three shots spanned a convergence ratio range of 12-20, which was achieved through varying the temperature to change the vapour density of the capsules. This confirmed that convergence ratio could be controlled in this way. These shots were then simulated using the HYDRA and xRAGE codes. The agreement was again very good at low convergence ratio (with yield and ion temperature agreeing to within 5 \% for N160421 with a convergence ratio of 12), but the discrepancy increased with convergence ratio resulting in a experimental yield for the CR=20 shot that was only 30 \% of that predicted by the simulation. The intermediate shot, with a convergence ratio between 16 and 17, showed a good agreement of above 70 \%\footnote{It should be noted that the exact reason for this discrepancy could not be identified in \cite{Zylstra2018}.}. These NIF shots therefore showed that wetted-foam capsules could be used to generate low-convergence ratio shots on the NIF, and that the agreement with simulations at low-convergence ratio was relatively high.
+
+This was not the first time a link between low convergence-ratio and agreement with simulation was observed; the same result is highlighted in the following (non-exhaustive) collection of references \cite{Kato1996, Nishimura2000, Meyerhofer2001, Li2002, Lindl2004, LePape2014, Khan2016, Haines2017a}. This agreement was identified as far back as 1980 \cite{Key1980}, where it was observed that lower initial aspect ratios (thicker shells as a function of radius - resulting in lower implosion velocities and less convergence) resulted in performance that was more 1D-like; the low laser energies available at the time however made it unfeasible to pursue high gain in this regime. The other innovation provided by wetted-foams was the ability to vary convergence ratio (almost) independently from other parameters, by varying the initial temperature and thus vapour density of the capsule.
+
+While the NIF shots discussed so far were indirect-drive, similar links between convergence ratio and 1D-like performance have also been observed in direct-drive shots on Omega. Regan \textit{et al.} observed that the hotspot pressure and compressed areal density of capsules using DT ice layers (rather than wetted-foams) reached 90 \% of the 1D simulated values for convergence ratios below 17 and adiabats greater than 3.5 \cite{Regan2016}. When the convergence ratio was increased past 17 a rapid drop-off occurred, which shows good qualitative agreement with the trend in yield observed on the NIF shots. This shows that this relationship applied for both indirect and direct-drive implosions, using both DT-ice or DT-wetted foam layers.
+
+
+\subsection{Simulation work} 
+
+This topic has also been explored through simulation work. 2D simulations were previously used to investigate how the yield of wetted foam capsules with varying vapour density (and thus convergence ratio) changed, for different amplitudes of a Legendre $P_4$ flux asymmetry. As expected, they found that the higher vapour density / lower convergence ratio implosions were significantly more robust to this instability, with a higher ratio of 2D to 1D yield Olson2013. Simulations performed in preparation for the NIF shots suggested that sensitivity to capsule instability growth and x-ray flux assymmetries increased with convergence ratio, leading to strong agreement between 2D and 1D simulations for CR=15 shots when surface roughness was applied compared to much worse agreement for high convergence ratio shots - leading to a hypothesis that using low convergence ratios would lead to reduced instability growth and a robust predictive capability \cite{Olson2016a}. 
+
+High resolution 2D xRAGE simulations performed in 2017 of full-scale wetted foam capsules including surface roughness and drive asymmetries found that yield increased with convergence ratio through the range of 12<CR<20, but found that when the capsule support tent and fill tube were included, the yield was roughly constant as a function of convergence up to CR=20, at which point it began to decrease \cite{Haines2017a}. This discrepancy was largely caused by the capsule support tent.
+
+However, a range of factors should be considered in interpreting this result. Recent NIF shots (including the DT wetted-foam shots) have used high-density carbon (HDC) shells; these have a higher density and thus higher ablative pressure than the previous plastic (CH) shells. HDC ablators are more susceptible to the effects of the fill tube, but are typically more robust to the capsule support tent compared to CH \cite{Zylstra2022, Abu-Shawareb2022, Haines2019a, Clark2018}. The caveat here is that the first shock should be strong enough to melt the HDC shell; otherwise, microstructures in the HDC may seed instability growth \cite{Mackinnon2014, Haines2019a}. The simulated design in the 2017 xRAGE simulations had a weak first shock, and the authors noted that this made these implosions particularly susceptible to instabilities seeded by the tent \cite{Haines2017a}; as demonstrated by the fact that xRAGE simulations of HDC ablator targets with stronger initial shocks demonstrate that the tent caused only a 1 \% reduction of the 2D yield \cite{Haines2019a}. The xRAGE simulations of N160421 (the first liquid layer DT shot, with a higher adiabat) also demonstrated a much smaller amount of yield degradation from this effect. 
+
+It's also worth noting the significant improvements that have been made since these 2017 simulations. Alternative designs for supporting the capsule have been proposed have been proposed \cite{Weber2017, Hammel2018a} and have led to improved capsule performance \cite{Hammel2018a}. In addition to this, the fill tube diameter has been significantly reduced since the 2017 simulations (the N210808 shot had a 2 \unit{\micro\meter} fill tube \cite{Abu-Shawareb2022}), leading again to less yield degradation and improved performance \cite{Weber2020, Pak2020}. These improvements may mean that some of the yield degradation observed in the 2017 simulations could be reduced, meaning that some increase in performance with convergence ratio (while staying in the CR<20 convergence ratio range discussed) may indeed lead to increased performance. This matches the conclusion made in that paper, which stated "as the level of these asymmetries is reduced, the wetted foam platform will enable layered implosions to be fielded at convergence ratios that optimize the trade-off between enhanced 1D performance and increased implosion instability as the convergence ratio is increased" - which is the intention of this chapter.
+
+Simulations of wetted foam with plastic shell at CR = 19 showed good agreement \cite{Haines2019a}, suggesting instabilities can be controlled. However, very conservative. Similar experiment with high asymmetry seeds showed significant yield degradation. When asymmetry seeds are suppressed (i.e. strong shock), then instability growth can be suppressed too.
+
+Stalks used for direct drive rather than tents. Initial simulation work suggested that stalks outperformed silk string, but still caused significant degradation \cite{Igumenshchev2009}. Simulation work suggested 10-20 \% yield degradation due to stalk, but did not observe differences in experiments between shots (but yield was much lower in all shots) \cite{Shah2017}. Recent work suggested that the stalk was indeed important, but could not quantify the effect on yield \cite{GatuJohnson2020}. Other simulations showed that lonw-wavelength asymmetries, including the target mount, were required to match experimental data.
+
+\section{Parameters influencing instability growth}
+
+Based on this previous body of research (and particularly inspired by the experimental wetted-foam results reported by Olson \textit{et al.} \cite{Olson2016} and Zylstra \textit{et al.} \cite{Zylstra2018}), it was decided to investigate the potential performance of low-convergence ratio capsules. This would be performed using one-dimensional radiation hydrodynamic simulations. These are an effective tool for such work, as they are relatively easy and quick to run. The downside of such simulations is that they neglect two and three-dimensional effects, including instability growth. If reasonable accuracy is desired, it is thus important to ensure that such effects are not significant in the regime being investigated - as is the case for low convergence-ratio simulations. It was decided that the definition for `low convergence-ratio' used in this investigation would be $CR<16$. This value was chosen as an expected reasonable compromise between two competing effects; the expected increased 1D fusion yield with convergence ratio, and the decreased agreement between experiment and simulation. A CR of 16 would likely give a much higher 1D yield than lowest CR of 12 discussed by Olson \textit{et al.} \cite{Olson2016}, but still fits within the CR range where Olson \textit{et al.} \cite{Olson2016} and Zylstra \textit{et al.} \cite{Zylstra2018} observed reasonable agreement with simulation. The xRAGE simulations in \cite{Haines2017a} predicted this would fit in the CR range where yield was flat with performance; this would predict that there was no advantage or disadvantage compared to a lower CR value, but as discussed above it is likely that the level of instability growth seen in that work could be mitigated, resulting in a more positive trend between CR and performance. Some preliminary simulations were performed in Nym by Warren Garbett, and in Helios by Heath Martin and Rusko Ruskov, before the more thorough investigation discussed here was performed.
+
+%these this previous work, and in particular the previous experimental results presented in Olson \textit{et al.} \cite{Olson2016} and Zylstra \textit{et al.} \cite{Zylstra2018}, it was decided to investigate the performance of low-convergence ratio capsules. A definition for low-convergence ratio of $CR<16$ was chosen; this allowed for a higher ideal yield than would likely be possible for the lowest $CR$ values they considered, but remained firmly in the regime investigated in those experiments (and where agreement would still be expected to be reasonably high)\footnote{Preliminary simulations were performed in Nym by Warren Garbett, and in Helios by Heath Martin and Rusko Ruskov, as an initial investigation of the performance that may be achievable for low-CR capsules using direct-drive. My work presented here then significantly expanded and explored this idea.}.
+
+However, convergence ratio  is not the only parameter that affects instability growth, and the literature revealed a number of important parameters which were also found to be important. Many of these were summarised in the review article by Craxton \textit{et al.}\cite{Craxton2015}. As such, a number of additional parameters were identified which should be controlled\footnote{As this is key to the work, the decisions about these limits were made very early on - before I was as familiar with the topic and the literature as I am now. The limits identified do a reasonable job of not being overly-restrictive with also limiting down the regime to one where instability growth should be minimal, but this should also provide some context to these selections.}.
+
+In-flight aspect ratio is well known to be a key parameter for hydrodynamic instability growth (IFAR). IFAR, defined in \hl{SECTION}, is a measure of the thickness of the capsule shell compared to the capsule radius. Thinner shells are more susceptible to instability growth and breaking up, and thus a low IFAR value is desirable. By making some assumptions about the nature of the implosion, it is possible to describe the grwoth-rate of RT instabilities in terms of IFAR, 
+\begin{equation} G_l = exp \left[ \alpha_1 \left( \frac{l}{l + \alpha_2 \cdot l \cdot (\mathrm{IFAR})^{-1}} \right)^{1/2} - \alpha_3 \cdot l \cdot (\mathrm{IFAR})^{-1} \right], \label{eq: IFARGrowth} \end{equation} $l$ is the spherical harmonic mode number, and the three $\alpha$ values are numerical constants \cite{Atzeni2008}. This expression describes RT instability growth at the capsule outer surface during the acceleration of the shell inwards, and is derived in the appendix; the fact that an expression for RT growth can be produced that depends solely on this parameter indicates it's importance for minimising instability growth. As a result, it was decided that this parameter must also be controlled. An upper limit of 30 was selected for IFAR, as previous works had noted this as a rough threshold above which significant instability growth and risk of capsule break-up was observed \cite{Lindl1995} (although it should be noted that some works suggest that even lower IFAR values may be desirable \cite{Radha2011, Goncharov2003}).
+
+Another key ICF parameter is the implosion velocity of the capsule, or how quickly the shell moves towards the center of the capsule. Implosion velocity does not directly appear in the equations for hydrodynamic instability growth, while acceleration does \cite{Atzeni2008}. The implosion velocity is a much more common parameter though; in part because it can be determined experimentally, and thus is often reported. The implosion velocity here can in some way provide a limit on acceleration - a lower velocity means that lower acceleration is likely experienced within the capsule. However, this parameter is also important in ensuring a realistic implosion. Implosion velocity is related to ion temperature and yield, and thus higher implosion velocities give better performing capsules - yet high implosion velocities are challenging to achieve experimentally. A value of 400 \unit{\kilo\meter\per\second} was chosen as an upper limit for implosion velocity; this represents a rough upper limit for the velocities that have been achieved in previous experiments \cite{Craxton2015, Callahan2015}, suggesting these velocities are indeed feasible\footnote{The recent 210808 shot was simulated to have an implosion velocity of 391 \unit{\kilo\meter\per\second}, which again demonstrates that this is a reasonable upper limit \cite{Kritcher2022}.}.
+
+The previous limits all relate to hydrodynamic instability growth, but parametric instabilities arising from laser plasma interactions are also a concern. Such instabilities lead to decreased laser absorption, and can also result in the generation of hot electrons which preheat the fuel, making it harder to compress and reducing the yield \cite{Rosenberg2018}. To avoid significant onset of parametric instabilities (which are not described in hydrocodes, as they do not include the kinetic effects required to generate them),  a final criteria of 
+\begin{equation} I \cdot \lambda^2 < 1 \times 10^{14} \: (\unit{\watt\per\centi\meter\squared}) \cdot \unit{\micro\meter\squared}, \end{equation}
+where $I$ is the laser intensity and $\lambda$ is the wavelength. This is a threshold above which significant amounts of parameteric instabilities begin to be observed \cite{Montgomery2016}.
+
+There is another quantity with a significant impact on hydrodynamic instability growth, which is the adiabat of the implosion. Fuel at low adiabat is more compressible, and results in a higher ideal gain - but low adiabat results in lower ablative velocity, which is key for the suppresion of hydrodynamic instability growth \cite{Betti2016} (initial implosions on the NIF targeted very low adiabat \cite{Lindl2014}, which was a key part of the reason for the poor experimental performance - significant improvement was found using 'high-foot' higher adiabat implosions \cite{Hurricane2014}). The importance of adiabat has also given rise to adiabat shaping techniques, where the outer fuel layer is placed on a higher adiabat than the inner fuel; doing so minimises the instability growth at the outer edge, while keeping the inner fuel on a lower adiabat to maximise compressability \cite{Goncharov2003}.
+
+No limit on adiabat was set on this work, for a variety of reasons: 1) I began this campaign early in my PhD, and did not fully appreciate the significance of adiabat until later; 2) adiabat is somewhat ambiguous in how it is reported (whether this is the minimum or average adiabat of the fuel), which makes comparison with literature values difficult; 3) adiabat is not obvious to control, unlike most of the other parameters - while implosion velocities / IFAR values that are too high can easily be improved by using thicker shells, adiabat is slightly more complicated to deal with. Given the links between these parameters (and particularly the relationship with IFAR), it was hoped that the reasonably stringent limits on the other parameters would be sufficient to minimise instability growth without strictly controlling adiabat. This is a way that this work could be extended though if this work were to be repeated - particularly if machine learning was to be used to explore the parameter space more effectively.
+
+It is also worth noting that these parameters are not independent. For example, a thin shell will result in a high IFAR, but also a high implosion velocity (due to the relatively low mass of the shell being accelerated). This will also likely result in a high convergence ratio. Mathematical relations can be derived between some of these parameters; for instance, between implosion velocity and convergence ratio. Previous research has also suggested that the combination of multiple parameters is important for 1D like behaviour; for instance, requiring low IFAR and high adiabat \cite{Goncharov2014}, or high adiabat and low convergence ratio \cite{Goncharov2003}. For the purposes of the optimisation these parameters are treated independently, ensuring that the value of each variable is sufficient to minimise growth. This also (hopefully) ensures that despite adiabat not being strictly controlled, it will be compensated for by the other parameters - and indeed, requiring that these parameters are appropriately valued may also result in a well-controlled adiabat.
+
+\subsection{The four `low-instability' criteria}
+By restricting implosions to a regime where growth instabilities are not expected to be significant, approximately 1D like performance is expected and thus 1D simulations codes are likely to be reasonably accurate. Four limits were identified in the previous subsection to minimised instability growth; the optimisation campaign will be used to produce implosions that satify all four of these limits. Repeated for clarity, these four criteria are:
+\begin{itemize}
+    \item $CR < 16$
+    \item $IFAR < 30$
+    \item $v_{imp} < 400 \: \unit{\kilo\meter\per\second}$
+    \item $I \cdot \lambda^2 < 1 \times 10^{14} \: (\unit{\watt\per\centi\meter\squared}) \cdot \unit{\micro\meter\squared}$
+\end{itemize}
+
+
+
+\section{Defining key parameters}
+
+Unfortunately, many of the key terms which are used in ICF literature are ambiguous, and have no agreed upon definition. This was particularly evident after the 2100808 NIF shot, where attempting to identify if the capsule had ignited required comparison to nine different `ignition' criteria \cite{Abu-Shawareb2022}. In order to produce an analysis code to quantify many of the necessary quantities, it was necessary to select appropriate definitions for these quantities. The definitions used in this work are therefore presented below.
+
+\subsection{Convergence ratio}
+The definition of convergence ratio used in this work is 
+\begin{equation} \mathrm{CR} =  R_\mathrm{I}/R_\mathrm{HS}, \label{CR} \end{equation} 
+where $R_\mathrm{I}$ is the initial interior radius of the DT layer, and $R_\mathrm{HS}$ is the radius of the hotspot. This version of convergence ratio was selected as it was the same definition used by Olson \textit{et al.} \cite{Olson2016} and Zylstra \textit{et al.} \cite{Zylstra2018}. Given that these papers identified that the convergence ratio trend discussed previously, it was deemed most important to match this definition. This is also often referred to as the `hot-spot convergence ratio'. This definition is still in use \cite{Olson2021}.
+
+However, even for such a simple formula ambiguity and other variations exist. Some papers define the initial radius $R_\mathrm{I}$ as the `initial inner radius of the shell' \cite{Craxton2015} or the `initial radius of the DT layer' \cite{Haines2017a}, which are less clear and suggest they may be using the outer radius of the DT layer/inner radius of the CH shell. Alternatively, a `capsule convergence ratio' is also used where the radius $R_\mathrm{I}$ is instead the outer radius of the capsule, including the CH ablator \cite{Lindl2004}. Further ambiguity is inserted through the $R_\mathrm{HS}$ term. This is often stated as simply the hotspot radius \cite{Olson2016, Olson2021}, but can also be described as the `minimum' hotspot radius, the hotspot radius at peak compression \cite{Craxton2015}, or the stagnated outer radius of the hotspot \cite{Zylstra2018}. These have been interpreted as all meaning the minimum hotsot radius, but it is noted that this does not necessarily occur at the time of stagnation (itself a poorly defined term) or peak compression. More significant is the ambiguity in where the hostpot radius is identified, as discussed in the following subsection.
+
+It is also the case that the convergence ratio is often evaluated in simulations where alpha deposition has been turned off. This is because alpha deposition leads to increased hotspot pressure, which in turn will decrease the convergence ratio of the capsule. However, if the experimental performance does not match that of the simulations, then this pressure will be reduced and the capsule may converge further before burn begins; and thus using the value derived without alpha deposition represents a worst-case scenario. In this work, alpha-heating was left on for ease of optimisation; alpha self-heating was required to determine the gain (the parameter being optimised), and thus using no-burn parameters to compare to the four criteria would require each simulation to be ran twice (once with burn, and once without). The focus of this work was on achieving break-even, and at these gains the discrepancy between burn and no-burn parameters is minimal (this effect only starts to become significant for gains of around 10 and above \cite{GoncharovPersonalComm}).
+
+\subsection{Hotspot and shell}
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figures/LowCR/HSDefn.eps}
+\caption{A log-log plot showing the simulated gain vs input energy, for the simulations where the criteria to minimise instabilities were satisfied. Simulations where a 3-pulse sequence was used are represented by a red/grey point, whilst those using 4-pulse sequences are coloured blue/black. 5 groupings of points are visible, corresponding to the five different capsule sizes used.}
+\label{fig:loglog}
+\end{figure}
+
+The well-known meaning of hotspot and shell is that the hotspot is the low-density, high temperature region at the center of the ICF capsule, and the shell is the cooler high-density region surrounding it. Considering a plot of the capsule shows that this is a clear and valid description of the situation. However, where the exact interface between the two lies is not well defined in a robust way. This is particularly true if one wishes to extend the concept of the shell to earlier stages in the implosion before stagnation. There is no accepted definition for this in the literature, and the definition used in a particular paper is not usually given; the only definition found was in \cite{Olson2021} which defined the hotspot as where the temperature was above 5keV, but such a definition would not work for small capsules which fail to achieve this temperature.
+
+A new definition was chosen for this work. The hotspot/shell interface (or `hotspot radius') is defined as the radius at which the density has increased by $1/e^2$ of the difference between the central hotspot density and the peak density in the shell. The shell outer radius is defined as the radius where the density has decreased to $1/e^2$ of the peak value. In the above diagram this places the two boundaries at the dashed lines, which matches well with the qualitative description. As this definition is based on density, it works throughout the early stages of the implosion - defining a 'shell' which could be used for the calculation of other quantities.
+
+\subsection{In-flight aspect ratio}
+
+The definition for the in-flight aspect ratio of the capsule used in this work is \begin{equation} \mathrm{IFAR} = \frac{R_\mathrm{shell}}{t_\mathrm{shell}}, \end{equation}
+where $R_\mathrm{shell}$ and $t_\mathrm{shell}$ are the shell radius and thickness. This quantity is evaluated when the capsule has been compressed to two-thirds of it's initial radius, in accordance with the common definition provided by \cite{Craxton2015} (other works evaluate the IFAR at different times, such as when the shell has converged by a factor of one third \cite{Radha2011}). In this work, this is evaluated as when the shell outer radius (from the definition above) reaches 2/3 of the initial inner radius of the wetted-foam layer. The shell thickness is given as the shell radius minus the hotspot radius. It should be noted that some works will define the shell radius as the position of peak shell density - the definition for $R_\mathrm{shell}$ used in this thesis is larger, and will therefore result in a marginally larger IFAR value.
+
+\subsection{Laser intensity}
+
+The quoted threshold for parametric instability growth depends on intensity. However, as the shell is compressed the surface area of the critical density surface will decrease; for a laser focused at the center of the capsule, the intensity would therefore increase as the implosion occurs.
+
+When evaluating the intensity, the initial radius of the capsule was used. This was done for convenience (it is known in advance what initial radius the capsule will have, and thus what the maximum permissible power would be), but it is also not expected that the intensity will increase dramatically over the course of the implosion (while the radius decreases, the laser will be travelling through the ablated material where some fraction of the energy will be lost).
+
+\subsection{Implosion velocity}
+
+The implosion velocity used in this work was a volume averaged implosion velocity across the material used in the shell. This should more correctly be a mass averaged implosion velocity, but the difference is marginal.
+
+\subsection{Yield, gain and bang time}
+
+Hyades outputs a total fusion yield as a function of energy. To get the neutron yield, this number is multiplied by a factor of 0.8; this quantity gives the amount of energy carried away from the implosion in the neutrons, given that 20\% of the energy is carried by alpha particles (many of which will be reabsorbed in the plasma in a high gain implosion). The total number of neutrons can be obtained by dividing this number by the 14.1 MeV neutron energy \cite{Atzeni2008}.
+
+The term `gain' is used here to mean the `total' or `target' gain, which is defined as \begin{equation} G = \frac{Y_{tot}}{E_{las}}, \end{equation} where $Y_{tot}$ is the neutron yield and $E_{las}$ is the input laser energy. Alternative variants on gain include capsule gain ($G_{cap} = Y_{tot}E_{abs}$, which compares the yield to only the energy absorbed by the capsule $E_{abs}$) and fuel gain ($G_{fuel} = Y_{tot} / E_{fuel}$, which compares yield instead to the energy absorbed by the DT fuel $E_{fuel}$), which are significantly larger \cite{Atzeni2008, Abu-Shawareb2022}.
+
+The bang time of the implosion is defined as the time of maximum neutron generation (i.e. where the peak number of fusion reactions occur) \cite{Craxton2015}.
+
+\subsection{Areal density}
+
+Despite areal density typically being referred to as $\rho R$, which suggests that it is the product of the density and the radius at a given position, the more accepted and commonly used version \cite{Craxton2005, Betti2005, Abu-Shawareb2022} of this quantity is \begin{equation} \rho R = \int_{R_1}^{R_2} \rho \cdot dR, \end{equation} the integral of the density $\rho$ with respect to radius $R$ over the region being considered\footnote{This definition causes some ambiguity during my own work - my first paper on this work defined $\rho R$ simply as the mass averaged product of these two quantities, which was replaced with the integral form for subsequent papers.}. Definitions for areal density are often not provided, and some works do indeed discuss $\rho R$ as the product of these two quantities \cite{Atzeni2008}.
+
+In this thesis, $\rho R$ is used to refer to the integral version of this quantity. The major benefit of this version is that the areal density of different regions sums linearly. This means that the total capsule areal density is the sum of the hotspot areal density and the shell areal density, which makes intuitive sense. Areal density can thus be thought of as a measure of how much DT fuel an alpha particle must move through, when generated at the center of the capsule and travelling (in a straight line) outwards - which highlights why this quantity is important for alpha absorption, self-heating, and thus gain. It also correlates well to the experimentally determined `neutron averaged' areal density, which is an average of the areal density across the neutron line of travel between the point of generation and the detector.
+
+\subsection{Hotspot / shell temperature}
+The hotspot and shell temperatures are the mass-averaged ion temperature over the hotspot and shell zones respectively.
+
+\subsection{Adiabat}
+
+The adiabat (or isentrope parameter) of an ICF capsule is used as a measure of the entropy of the cold, highly compressed DT fuel. This is done through comparison with a cold gas with Fermi-degenerate electrons. It is defined as \begin{equation} \alpha = \frac{P(\rho, T)}{P_{deg}(\rho)} . \end{equation} $P(\rho, T)$ is the pressure of the DT fuel for which the adiabat is calculated, while $P_{deg}(\rho)$ is the pressure for the Fermi-degenerate DT at the equivalent density. This can be calculated using \begin{equation} P_{deg}(\rho) = A_{deg} \rho^{5/3}, \end{equation} where $\rho$ is the density in \unit{\gram\per\centi\meter\cubed}, and $A_{deg} = $ \num{2.17e12} \unit{(\mathrm{erg}/\mathrm{g})/(\mathrm{g}/\mathrm{cm}^3)^{2/3}} for equimolar DT \cite{Atzeni2008}.
+
+Alternative definitions evaluate the EOS for a low density cold DT value. This quantity is evaluated at the time of peak implosion velocity \cite{Park2014}. Actually should use averaged entropy \cite{Haan2011} \cite{Haines2022} Brian Haines private communic.
+
+%In this work, the reported adiabat is the mass-averaged adiabat of DT in the capsule shell. The minimum adiabat is also calculated, which is the minimum adiabat across the DT zones in the shell. Both of these quantities are calculated as a function of time, and increase as the implosion progresses.
+
+\subsection{Ignition and break-even}
+Of all the ICF parameters, `ignition' is probably the most ambiguous. It is thus unfortunate that this is also perceived as the target for ICF experiments. The National Research Council in 1977 defined ignition as the point at which the fusion energy produced exceeded the laser input; this is the definition that is most of interest to people outside of the field, but it is not really linked to any meaningful scientific transition within the capsule.
+
+There have been a variety of attempts to define ignition in a more rigorous way, but there is no single accepted definition. There are both alternative definitions (for example, it can be defined as the point at which a burn wave starts to propogate through the cold shell \cite{Christopherson2020}), and alternative ways of quantifying this. When the N210808 NIF shot achieved a yield of 1.3 MJ, this ambiguity meant that was deemed to achieve `ignition' by nine different scientific criteria \cite{Abu-Shawareb2022}, despite having failed to satisy the NIC criteria (fortunately, this criteria was also finally satisfied by the most recent shot).
+
+Due to this ambiguity and lack of clarity, the term `ignition' has been avoided where possible in this thesis. Where it is used, it is done so causally without specific meaning, and simply means to achieve a well-performing high-gain capsule. The term `break-even' is used, which is a less ambiguous term defined as a gain of 1, or when the fusion energy exceeds the laser input - which matches the NIC definition ignition definition.
+
+\section{The ICF implosion to be optimised}
+
+\begin{figure}
+\centering     %%% not \center
+\subfigure a){\label{fig:LaserProfile}\includegraphics[width=.45\textwidth]{figures/LowCR/LaserProfile_half.eps}}
+\subfigure b){\label{fig:CapsuleDesign}\includegraphics[width=.45\textwidth]{figures/LowCR/Capsule.pdf}}
+\caption{Plots of a) the laser profile and b) the capsule design. The laser sequence consists of a laser being applied at the start of the simulation, leading to four pulses of increasing power. The power begins to increase at the times $t_1, t_2$ and $t_3$ (with a linear rise over 200 \unit{\pico\second}), and the laser is switched off at time $t_{off}$ (with a linear decay over 200 \unit{\pico\second}). The capsule has three layers, with material interfaces at  $R_{vapour}$ and $R_{foam}$ and an outer radius of $R_{capsule}$. When optimising this design, $R_{capsule}$ is selected and considered fixed. This is used to define the laser pulse powers $P_1, P_2, P_3$ and $P_4$, which are also not changed. This leaves seven optimisation parameters, which are indicated in teal: $t_1, t_2, t_3, R_{vapour}, R_{foam}$ and $\rho_{vapour}$ (the DT vapour density).}
+\end{figure}
+
+The implosion to be optimised is a direct-drive ICF implosion of a wetted-foam capsule. The capsule structure and laser profile will be discussed in this section, and the `optimisation' parameters defined. 
+
+The capsule was a simple three layer capsule as despicted in FIGURE. It consisted of a central vapour region, with a wetted foam layer and a thin deuterated plastic shell. The vapour density of the capsule was variable between 0.6 \unit{\milli\gram\per\centi\meter\cubed} $< \rho_foam <$ 4.0 \unit{\milli\gram\per\centi\meter\cubed} (which corresponds to fielding temperatures ranging between 20 and 26 K, compatible with capsules containing liquid DT). The density of the wetted foam layer is fixed at 0.253 \unit{\gram\per\centi\meter\cubed}, and the plastic shell at 1.04 \unit{\gram\per\centi\meter\cubed}. This represents a simple capsule that can be easily optimised, but also one which is feasible and could realistically be used for experiments. Other ignition-type designs tend to use a comparable capsule, but may use alternative ablators: these can include the use of HDC rather than plastic \cite{Mackinnon2014}, and can contain layers of dopants (such as silicon) to absorb hot-electrons and thus minimise preheating \cite{Solodov2022}. 
+
+The laser was a third-harmonic laser with a simple stepped power profile as seen in FIGURE. Two profiles were considered - one with three steps (i.e. three regions of constant power), and one with four. The time for each increase in power and the decay time at the end of the laser profile was set at 0.2 \unit{\nano\second}. The relative pulse powers were designed following the theory described by Lindl for creating low-adiabat laser profiles \cite{Lindl1995}, where it was found that increasing the pulse power by a factor 7 each time helped to minimise the entropy. This pulse profile was picked for being feasible on current facilities and for creating the shocks necessary to effectively compress the capsule, but also for it's simplicity and thus compatibility with an optimisation campaign. This was also the reason for fixing the relative pulse powers in advance; changing the pulse powers could likely result in better performance, but adding an additional four optimisation variables would be infeasible. The maximum pulse power was calculated from the parametric threshold using the capsule radius, and the profile scaled accordingly.
+
+During the optimisation, the capsule outer radius was kept constant. This radius also defined the max power for the laser profiles. An optimisation campaign was then conducted for this constant radius, to find the optimal performance for that particular radius. Since the radius also defined the power of the laser and the implosion time, a given radius essentially corresponded to a roughly constant energy (although this would change slightly around this through the optimisation).
+
+As the first increase in laser power occurred at the start of the simulation, a four-pulse laser profile therefore had four parameters to be optimised - the timing of the subsequent increases in power, and the time the laser turned off at. With the capsule radius kept constant during a given optimisation, there were three capsule parameters - the thickness of the wetted-foam and CH layers, and the density of the vapour region. This led to a total of 7 parameters to be optimised.
+
+\section{Simulating ICF implosions in HYADES}
+
+The 1D Lagrangian radiation hydrodynamics code HYADES was used for this simulation campaign.  Hyades was developed and is supplied through Cascade inc., and in those work was ran on the SCARF supercomputer at the UKRI-STFC Rutherford Appleton Laboratory. This code was chosen due to availability (it could be accessed through existing links with the RAL), and due to it's previous use for similar simulations of ICF work \cite{Hatfield2019}. These two factors also meant that there was support available in running and learning the code. Finally, it contained all the necessary physics to fully simulate these implosions (some initial simulations were performed in Helios, but this code does not contain alpha heating - and thus simulations of igniting capsules are not possible).
+
+\subsection{Physics models used in Hyades}
+
+Hyades allows for a wide number of different physics models to be used, and these choices are selected in the input deck. Those used in these simulations were based on the advice and recommendations of Dr Robbie Scott at the CLF, who has used this code extensively, bench-marked it to experimental shots, and determined the most appropriate settings. For the ionisation models, an average-atom model was selected. A multi-group radiation diffusion approximation was used for radiation transport. The in-built Hyades quotidian equation of state (QEOS) model was used to describe the deuterium-tritium layers, while the SESAME EOS was used for the deuterated carbon shell. An electron flux-limiter of $0.05$ was used, with an ion flux limiter of $0.4$. 
+
+The central target void was described as DT gas, using the in-line HYADES quotidian equation of state model, while the thin plastic shell was described as deuterated plastic and used the SESAME EOS table for CH. These are the standard, accepted ways of describing these materials. The wetted foam layer was less well-described, as no equation of state table for DT wetted foam was available. Instead, the DT wetted-foam layer was described as a conventional DT ice layer, described by the same DT QEOS model as for the DT vapour. The simulation therefore does not include the presence of the foam. This is a limitation of this work which is discussed further in later sections.
+
+\subsection{Capsule meshing}
+
+Hyades does not have an in-built meshing routine, and thus a mesh must be produced for each simulation to discretise the target. This mesh has two major requirements to ensure accuracy; the resolution of the mesh at the capsule outer edge should be sufficiently high, and the relative mass difference between zones should not be much greater than $\sim$ 2\%. In addition to this, an increased number of zones/mesh points leads to an increased simulation time, and thus it is desirable to keep the number of zones to a minimum while satisfying these two conditions.
+
+As such, a custom meshing routine was produced for this simulation campaign. This routine was automatic and robust, allowing meshes to be created to describe capsules of a range of different sizes and layer thicknesses relevant to this investigation. The production of such a meshing algorithm was essential to being able to perform the large parameter scans that were the main feature of this work, as it enabled large numbers of capsules with different structures to be simulated with accuracy. The principles of this code (along with the underlying theory) is outlined in the appendix.
+
+The meshing algorithm produced worked sufficiently well for the campaign to be conducted. It operated less well as the thicknesses of the layers began to vary too drastically, but this never seemed to present a problem for the optimisations; if the thicknesses had changed drastically enough that for the meshing code to stop working well, the performance would either have dropped sufficiently that it was clearly not worth investigating, or the criteria for implosion velocity/IFAR would have been exceeded. However, if simulations of drastically different designs were required, a new and more robust meshing algorithm would need to be developed.
+
+\section{Conducting the simulation campaign}
+
+The optimisation campaign really consisted of a number of smaller campaigns, with different capsule radii and thus energy scales. For each campaign, a rough initial simulation was created. 
+
+Large parameter scans were then performed varying either the two layer thicknesses, or two of the three laser timings, over the course of around 100 simulations. The results of these would then be analysed on a series of plots considering the gain, convergence ratio, implosion velocity and IFAR as a function of the input parameters. Trends in these parameters were identified, and the simulations giving the optimal balance of perfomance and the simulation criteria selected. A new round of simulations would then be performed varying further parameters, and the process repeated. This was an iterative process - optimising the laser timings would then often lead to a new optimal thickness, which in turn would lead to a change in the optimal laser timings again. This process was repeated until it stopped yielding capsules with better performance.
+
+Througout this optimisation, the results would be monitored and the vapour density would also be investigated. For instance, if there were a number of capsules with lower yield than the current 'optimal' design, but which also had a much lower convergence ratio than the limit of 16, then the vapour pressure would be reduced - this would increase the CR and gain of these capsules, and may result in them outperforming the previous best result. Equally, if a large number of the capsules satisfied the other criteria but the convergence ratio was too high, the vapour density would be reduced. This led to multiple repeats of the same round of optimisation at different vapour densities.
+
+The time at which the laser was turned off was also treated separately from the other optimisation parameters. In all ICF implosions, there is a point after the peak implosion velocity is simulated at which the laser accelerates the shell no further. After this point, there is no benefit to applying the laser in terms of fusion performance - but doing so will increase the input energy, and thus decrease the gain. This effect could be substantial, and trends in the gain were being obscured based on how long after this point the laser was applied for. To resolve this, the laser was applied until the end of the simulation in each simulation during the optimisation. The gain calculation was then adjusted so that the laser energy used up until the bang time was used for this calculation - this meant that the gain was lower than it could be, but would be comparable between simulations (and would not be affected by the delay between the bang time and the simulation ending). This parameter was then investigated last.
+
+Care was also taken to ensure that appropriate time resolution was being used in all simulations, and that the simulation end time was appropriate. If the simulation ended before the capsule had properly converged, the gain would inevitably be too low. This could typically be spotted by unfeasible data (for instance, a very low convergence ratio). To test for this, a representative number of the simulations would be analysed individually to check that the full behaviour was being captured, and that the simulations looked appropriate.
+
+When the optimisation had settled on a design which was no longer showing improvement, there were two final steps. First, the final design was taken, and the vapour pressure varied. Typically the optimal capsule by this point had a convergence ratio very close to 16, and this final tuning allowed it to be brought closer and the gain improved slightly. Finally, the laser switch off time was varied. This would reveal a clear optimal time at which the laser should be turned off - and since previously this was applied for longer, this would result in a final boost to the gain. 
+
+This procedure generated the `optimal' design for a particular capsule radius, and a particular number of laser pulses. The procedure was repeated multiple times to generate optimal 3-pulse and 4-pulse sequences for a range of different capsule radii, and thus implosions at a range of energy scales.
+
+\subsection{Hydroscaling}
+
+When this campaign was first conducted (in 2020) it was done from first principles for each capsule to avoid making assumptions on the form of the capsules. However, it was clear that all the capsules had comparable relative thicknesses and timings. In 2022, a further optimisation was performed to fill in a gap in the energies investigated, and this time hydrocaling relations were applied to produce an intitial capsule to start the optimisation from. This significantly reduced the rounds of simulations required to achieve convergence.
+
+Hydroscaling makes use of the fact that much of the physics in ICF implosion (particularly in 1D) is scale independent, and thus many of the parameters scale in a straightforward manner with capsule size. These relations state that $t \propto R \propto E^{1/3}$ where $t$ and $R$, are the implosion timings (including all laser timings) and capsule radii (including all internal boundaries) respectively, and $E$ is the laser energy \cite{Nora2014}. This meant that, based on the energy desired for the implosion, a rough estimate could be produced of the necessary capsule size. The interior dimensions of the capsule could be scaled accordingly, as could the laser timings. This was then used as the starting point of the optimisation, and already had a reasonable level of performance - this was then further increased by the optimisation campaign.
+
+\section{Results and analysis}
+
+Over 20,000 simulations were performed, to optimize seven different sized capsules. Just over half of these satisfied all four criteria; these simulations are plotted as a function of gain vs laser energy in Figure \ref{fig:loglog}. The data can be seen to form seven rough peaks, corresponding to the seven different capsule radii (and thus energy scales). The four-pulse laser sequences are displayed in black, while the three-pulse sequences are displayed in teal. As expected, the lower adiabat four-pulse sequences outperformed the three-pulse sequences at all energy scales. The best performing three-pulse and four-pulse simulation for each capsule size has been tabulated in Table \ref{tab:ThirdHarmonic}. 
+
+\begin{figure}[ht!]
+\centering
+\includegraphics{figures/LowCR/AllData_full.eps}
+\caption{A log-log plot showing the simulated gain vs input energy, for the simulations where the criteria to minimise instabilities were satisfied. Simulations where a 3-pulse sequence was used are represented by a red/grey point, whilst those using 4-pulse sequences are coloured blue/black. Nine groupings of points are visible, corresponding to the nine different capsule sizes used.}
+\label{fig:loglog}
+\end{figure}
+
+
+\begin{table}
+\resizebox{\textwidth}{!}{%
+  \centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+ Number of pulses & \multicolumn{8}{c|}{3} \\
+ \hline
+ Size multiplier & 0.25 & 0.35 & 0.5 & 0.65 & 0.75 & 0.85 & 1 & 1.1 \\ 
+\hline
+Laser energy (MJ) & - & - & 0.80 & 1.8 & - & 4.0 & 6.6 & 8.9\\ 
+Gain & - & - & 0.11 & 0.35 & - & 5.2 & 26 & 38\\ 
+Convergence ratio & - & - & 15.3 & 15.5 & - & 15.9 & 16.0 & 16.0\\ 
+IFAR & - & - & 20.3 & 18.7 & - & 15.2 & 14.3 & 12.7 \\ 
+Implosion velocity (km/s) & - & - & 399.2 & 395.4 & - & 373.9 & 358.4 & 332.4\\ 
+Max pulse power (TW) & - & - & 173.00 & 292.38 & - & 500.12 & 692.13 & 837.50\\ 
+Pulse 2 switch on time (ns) & - & - & 3.65 & 3.80 & - & 5.00 & 6.20 & 7.00\\ 
+Pulse 3 switch on time (ns) & - & - & 4.15 & 4.90 & - & 6.30 & 7.60 & 8.80\\ 
+Laser switch off time (ns) & - & - & 8.50 & 10.50 & - & 13.75 & 16.50 & 18.60\\ 
+Vapour/liquid boundary (\si[per-mode=symbol]{\milli\meter}) & - & - & 1.3000 & 1.6835 & - & 2.2100 & 2.6100 & 2.8710\\ 
+Liquid/CD boundary (\si[per-mode=symbol]{\milli\meter}) & - & - & 1.4000 & 1.8200 & - & 2.3800 & 2.7900 & 3.0580\\ 
+Outer radius (\si[per-mode=symbol]{\milli\meter}) & - & - & 1.4250 & 1.8525 & - & 2.4225 & 2.8500 & 3.1350\\ 
+Vapour density (\si[per-mode=symbol]{\milli\gram\per\centi\meter\cubed}) & - & - & 1.00 & 0.85 & - & 0.65& 0.65 & 0.70\\
+\hline
+
+Number of pulses & \multicolumn{8}{c|}{4} \\
+\hline
+Size multiplier & 0.25 & 0.35 & 0.5 & 0.65 & 0.75 & 0.85 & 1 & 1.1 \\ 
+\hline
+Laser energy (MJ) & 0.10  & 0.27 & 0.77 & 1.7 & 2.8 & 4.2 & 6.7 & 8.5\\ 
+Gain & 0.030 & 0.067 & 0.19 & 0.75 & 6.1 & 24 & 42 & 54\\ 
+Convergence ratio & 15.7 & 15.7 & 16.0 & 15.8 & 16.0 & 15.9 & 16.0 & 15.7\\ 
+IFAR & 23.4 & 27.5 & 29.7 & 25.1 & 23.8 & 21.2 & 18.4 & 15.7\\ 
+Implosion velocity (km/s) & 391.4 & 395.8 & 399.6 & 399.6 & 387.8 & 347.5 & 334.1 & 311.0\\ 
+Max pulse power (TW) & 43.26 & 84.79 & 173.00 & 292.38 & 389.36 &500.12 & 692.13 & 837.50\\ 
+Pulse 2 switch on time (ns) & 1.10 & 2.20 & 2.60 & 3.60 & 4.20 & 3.70 & 5.20 & 5.70\\ 
+Pulse 3 switch on time (ns) & 3.00 & 4.60 & 5.60 & 7.80 & 8.80 & 9.40 & 12.80 & 15.00\\ 
+Pulse 4 switch on time (ns) & 3.60 & 5.50 & 6.80 & 9.50 & 10.90 & 11.40 & 15.30 & 18.00\\ 
+Laser switch off time (ns) & 5.80 & 8.50 & 11.00 & 15.00 & 17.65 & 19.40 & 24.50 & 27.50\\ 
+Vapour/liquid boundary (\si[per-mode=symbol]{\milli\meter}) & 0.6325 & 0.8950 & 1.3050 & 1.6705 & 1.9275 & 2.2100 & 2.6000 & 2.8270\\ 
+Liquid/CD boundary (\si[per-mode=symbol]{\milli\meter}) & 0.69625 & 0.976 & 1.3950 & 1.8200 & 2.1000 & 2.3630 & 2.7800 & 3.0580\\ 
+Outer radius (\si[per-mode=symbol]{\milli\meter}) & 0.7125 & 0.9975 & 1.4250 & 1.8525 & 2.1375 & 2.4225 & 2.8500 & 3.1350\\ 
+Vapour density (\si[per-mode=symbol]{\milli\gram\per\centi\meter\cubed}) & 1.35 & 1.35 & 1.05 & 1.00 & 0.90 & 0.85 & 1.00 & 1.00\\
+\hline
+\end{tabular}}
+\caption{Simulation parameters used to achieve the maximum gains for each capsule size for both pulse sequences. The original capsule was the column with size multiplier of 1. New capsule sizes (and thus energy scales) were simulated by multiplying the radius by the size multiplier. In order to keep $I\lambda^2$ constant over different capsule sizes, the pulse powers were then multiplied by the square of the size multiplier. Gain is given to two significant figures, whilst convergence ratio, IFAR and implosion velocity are given to one decimal place. This level of precision is higher than would typically be quoted for a 1D simulation, but is used here to indicate how the values compare with the imposed limits. While convergence ratio is in places displayed as 16.0, the value to the precision calculated in the analysis is below this upper limit. The original simulation campaign was performed for five capsule sizes; three further sizes (0.25, 0.35 and 0.75) were performed later, but only four pulse sequences were optimized.}
+\label{tab:ThirdHarmonic}
+\end{table}
+
+These results demonstrate that high gain can be achieved in this conservative regime, with a gain of 54 being achieved for an energy of 8.5 \unit{\mega\joule}. However, this is a much higher energy than is currently achievable, and is likely too high for an economically viable fusion reactor - suggesting that a fusion reactor could not be constructed using this setup in this regime. However, the lower energy performance is still interesting. The gains of 0.19 and 0.75 at 0.77 \unit{\mega\joule} and 1.7 \unit{\mega\joule} respectively are impressive given the conservative nature of this regime. It is also worth noting that when this work was performed the record ICF gain was 0.03, and so this result suggested an improvement (at the time) of an order of magnitude. Recent developments have led to higher gains, but this suggests that comparable performance can be achieved in a conservative regime, where instability growth is less of a concern (and implosions would hopefully be robust). The recent NIF results (a gain of 0.7 at 1.9 MJ, and a gain of 1.5 at 2.05 MJ) actually fit just below the trend of this data (this is plotted in Figure \ref{fig:ArF and Two colour} in the following chapter), suggesting that the performance is comparable to what is predicted here.
+
+The conditions in the hotspot and shell of the 0.77 \unit{\mega\joule} capsule are displayed in \ref{fig:HSandShellLMJ}. It can be seen that the hotspot conditions are close to that required for ingition. The areal density is greater than the 0.3 \unit{\gram\per\centi\meter\squared} commonly quoted as required for ignition to occur, but the ion temperature (just below 4 keV) is slightly too low. This suggests that ignition could be within reach, if it was possible to increase this ion temperature slightly just prior to the bangtime. This is investigated further in \hl{Chapter}. The other thing to note is the relatively low areal density of the shell, which arises from the limited convergence of the capsule. This can be increased by increasing the size of the capsule.
+
+It is important to note again here the purpose of this work, which is not to claim that these exact gains are possible - these are the results of 1D simulations only, and thus can not be expected to be fully accurate. However, it is expected that these 1D simulations should be reasonably indicative on an experiment (due to the lack of instability growth), and thus major discrepancies should not be expected. This therefore indicates that interesting performance can be achieved at low convergence ratio, even in this incredibly conservative regime. 
+
+Perhaps this regime is too conservative, in which case the limitations could be relaxed slightly. This could lead to greater performance still. The database of simulations performed for this campaign give an indication of the possible effect of this. The smaller capsules in particular are very sensitive to implosion velocity, and this was a real barrier to effective optimisation. If the upper limit of 400 \unit{\kilo\meter\per\second} was relaxed slightly, then higher performance could be achieved. \hl{Higer velocity? Optimise new capsule? Or at least tune laser end time?}
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figures/LowCR/RhoRandT.eps}
+\caption{A log-log plot showing the simulated gain vs input energy, for the simulations where the criteria to minimise instabilities were satisfied. Simulations where a 3-pulse sequence was used are represented by a red/grey point, whilst those using 4-pulse sequences are coloured blue/black. 5 groupings of points are visible, corresponding to the five different capsule sizes used.}
+\label{fig:HSandShellLMJ}
+\end{figure}
+
+
+
+
+
+
+
+
+\section{Limitations and suggested future work}
+There are a number of limitations of this work, some of which will be investigated further in the following chapters. These limitations also suggest potential avenues for future research.
+
+Firstly, the fundamental limitation of this work is the use of 1D simulations. While the effort made here to define a low-instability regime means that 1D like-behaviour is expected, this is still a fundamental assumption upon which this work relies. 1D simulations neglect a large amount of key physics, and thus high accuracy of results should not be expected. This is sufficient for an initial investigation as has been conducted here, but to really explore this regime with greater confidence simulations in higher dimensions are required, along with experiments to verify that the regime is indeed sufficient to minimise instability growth. We have recently secured access to the University of Rochester's RIGEL code, and plan to use this for confirmatory 2D simulations.
+
+Secondly, the direct-drive nature of this work makes experimental verification of the regime challenging. When this work was performed, the use of cryogenic targets and the high energies meant that performing shots based on these designs would not be possible, due to a lack of cryogenic capabilities for direct-drive shots at the NIF. Fortunately this has since been rectified, and direct-drive shots of wetted-foam targets are being planned. Cryogenic shots are difficult to obtain though, and this presents a difficulty to verifying these results experimentally. A solution to this is proposed in the next chapter.
+
+Thirdly, the simulations make a number of approximations that are not particularly accurate, which likely lead to some over-estimation of the performance. The two main ones are as follows: 1) the laser in the 1D simulations is focussed at the center of the capsule, which means that it remains perfectly focused as the capsule implodes. This is unphysical. However, the benchmarking simulations in Appendix \ref{app:benchmark} suggest that the input multiplier used to account for this is reasonable for in the case of a spherical direct-drive implosion, although a lower multiplier may be required for a polar direct drive setup. 2) The description of the wetted foam as simply a DT layer (with the CH foam not accounted for) is a poor one, and is only valid if the foam density is below $\sim10$~\si[per-mode=symbol]{\milli\gram\per\centi\meter\cubed} \cite{CHFoamLim}. Other groups have used a less-compressible mixed CH + DT equation of state to describe this material with more accuracy \cite{Olson2021}; this is investigated in the following section. This is further complicated by the fact that the equation of state for even dry foams at these low densities are not well simulated, which motivated the experiment in later chapters. Further study is required to better describe this material if wetted-foams are to be simulated to higher accuracy, and ultimately experiments to measure the wetted foam equation of state are required; this is enough topic that we are continuing to investigate.
+
+Finally, while these are presented as `optimisation' campaigns, exploring such large parameter spaces manually is incredibly difficult, and thus no guarantee can be made that optimal performance has been obtained. This approach would be well-suited to a machine learning approach, which could automate the optimisation process and hopefully explore the parameter space more efficiently. Machine-learning has been applied to ICF for similar problems in the past successfully \cite{Hatfield2019}, and this is something that we are currently investigating within our research group. If this could be done successfully, it would allow many more simulation campaigns to be performed of this ilk with relative ease. The impact of more parameters could be explored (for example, the laser pulse powers), and the criteria applied to limit the parameter space could be adjusted (i.e. to investigate alternative maximum implosion velocities) or to include other parameter (for instance, applying a minimum permitted adiabat).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%\begin{table}[t]
+%\resizebox{\textwidth}{!}{%
+%\centering
+%\begin{tabular}{|c|c|c|c|c|c|c|}
+%\hline
+% Number of pulses & \multicolumn{6}{c|}{3} \\
+% \hline
+% Size multiplier & 0.5 & 0.65 & 0.75 & 0.85 & 1 & 1.1 \\ 
+%\hline
+%Laser energy (MJ) & 0.80 & 1.8 & - & 4.0 & 6.6 & 8.9\\ 
+%Gain & 0.11 & 0.35 & - & 5.2 & 26 & 38\\ 
+%Convergence ratio & 15.3 & 15.5 & - & 15.9 & 16.0 & 16.0\\ 
+%IFAR & 20.3 & 18.7 & - & 15.2 & 14.3 & 12.7 \\ 
+%Implosion velocity (km/s) & 399.2 & 395.4 & - & 373.9 & 358.4 & 332.4\\ 
+%Max pulse power (TW) & 173.00 & 292.38 & - & 500.12 & 692.13 & 837.50\\ 
+%Pulse 2 switch on time (ns) & 3.65 & 3.80 & - & 5.00 & 6.20 & 7.00\\ 
+%Pulse 3 switch on time (ns) & 4.15 & 4.90 & - & 6.30 & 7.60 & 8.80\\ 
+%Laser switch off time (ns) & 8.50 & 10.50 & - & 13.75 & 16.50 & 18.60\\ 
+%Vapour/liquid boundary (\si[per-mode=symbol]{\milli\meter}) & 1.3000 & 1.6835 & - & 2.2100 & 2.6100 & 2.8710\\ 
+%Liquid/CD boundary (\si[per-mode=symbol]{\milli\meter}) & 1.4000 & 1.8200 & - & 2.3800 & 2.7900 & 3.0580\\ 
+%Outer radius (\si[per-mode=symbol]{\milli\meter}) & 1.4250 & 1.8525 & - & 2.4225 & 2.8500 & 3.1350\\ 
+%Vapour density (\si[per-mode=symbol]{\milli\gram\per\centi\meter\cubed}) & 1.00 & 0.85 & - & 0.65& 0.65 & 0.70\\
+%\hline
+
+%Number of pulses & \multicolumn{6}{c|}{4} \\
+%\hline
+%Size multiplier & 0.5 & 0.65 & 0.75 & 0.85 & 1 & 1.1 \\ 
+%\hline
+%Laser energy (MJ) & 0.77 & 1.7 & 2.8 & 4.2 & 6.7 & 8.5\\ 
+%Gain & 0.19 & 0.75 & 6.1 & 24 & 42 & 54\\ 
+%Convergence ratio & 16.0 & 15.8 & 16.0 & 15.9 & 16.0 & 15.7\\ 
+%IFAR & 29.7 & 25.1 & 23.8 & 21.2 & 18.4 & 15.7\\ 
+%Implosion velocity (km/s) & 399.6 & 399.6 & 387.8 & 347.5 & 334.1 & 311.0\\ 
+%Max pulse power (TW) & 173.00 & 292.38 & 389.36 &500.12 & 692.13 & 837.50\\ 
+%Pulse 2 switch on time (ns) & 2.60 & 3.60 & 4.20 & 3.70 & 5.20 & 5.70\\ 
+%Pulse 3 switch on time (ns) & 5.60 & 7.80 & 8.80 & 9.40 & 12.80 & 15.00\\ 
+%Pulse 4 switch on time (ns) & 6.80 & 9.50 & 10.90 & 11.40 & 15.30 & 18.00\\ 
+%Laser switch off time (ns) & 11.00 & 15.00 & 17.65 & 19.40 & 24.50 & 27.50\\ 
+%Vapour/liquid boundary (\si[per-mode=symbol]{\milli\meter}) & 1.3050 & 1.6705 & 1.9275 & 2.2100 & 2.6000 & 2.8270\\ 
+%Liquid/CD boundary (\si[per-mode=symbol]{\milli\meter}) & 1.3950 & 1.8200 & 2.1000 & 2.3630 & 2.7800 & 3.0580\\ 
+%Outer radius (\si[per-mode=symbol]{\milli\meter}) & 1.4250 & 1.8525 & 2.1375 & 2.4225 & 2.8500 & 3.1350\\ 
+%Vapour density (\si[per-mode=symbol]{\milli\gram\per\centi\meter\cubed}) & 1.05 & 1.00 & 0.90 & 0.85 & 1.00 & 1.00\\
+%\hline
+%\end{tabular}}
+%\caption{Simulation parameters used to achieve the maximum gains for each capsule size for both pulse sequences. The original capsule was the column with size multiplier of 1. New capsule sizes (and thus energy scales) were simulated by multiplying the radius by the size multiplier. In order to keep $I\lambda^2$ constant over different capsule sizes, the pulse powers were then multiplied by the square of the size multiplier. Gain is given to two significant figures, whilst convergence ratio, IFAR and implosion velocity are given to one decimal place. This level of precision is higher than would typically be quoted for a 1D simulation, but is used here to indicate how the values compare with the imposed limits. While convergence ratio is in places displayed as 16.0, the value to the precision calculated in the analysis is below this upper limit.}
+%\label{tab:ThirdHarmonic}
+%\end{table}
+
+%\begin{table}[t]
+%\centering
+%\begin{tabular}{|c|c|c|c|}
+%\hline
+%Number of pulses & \multicolumn{3}{c|}{4} \\
+%\hline
+%Size multiplier & 0.25 & 0.35 & 0.75 \\ 
+%\hline
+%Laser energy (MJ) & 0.10  & 0.27  & 2.8\\ 
+%Gain & 0.030 & 0.067 &  6.1\\ 
+%Convergence ratio & 15.7 & 15.7 &  16.0\\ 
+%IFAR & 23.4 & 27.5 & 23.8\\ 
+%Implosion velocity (km/s) & 391.4 & 395.8 & 387.8\\ 
+%Max pulse power (TW) & 43.26 & 84.79 & 389.36\\ 
+%Pulse 2 switch on time (ns) & 1.10 & 2.20 & 4.20\\ 
+%Pulse 3 switch on time (ns) & 3.00 & 4.60 & 8.80\\ 
+%Pulse 4 switch on time (ns) & 3.60 & 5.50 & 10.90\\ 
+%Laser switch off time (ns) & 5.80 & 8.50 & 17.65\\ 
+%Vapour/liquid boundary (\si[per-mode=symbol]{\milli\meter}) & 0.6325 & 0.8950 & 1.9275\\ 
+%Liquid/CD boundary (\si[per-mode=symbol]{\milli\meter}) & 0.69625 & 0.976 & 2.1000\\ 
+%Outer radius (\si[per-mode=symbol]{\milli\meter}) & 0.7125 & 0.9975 & 2.1375\\ 
+%Vapour density (\si[per-mode=symbol]{\milli\gram\per\centi\meter\cubed}) & 1.35 & 1.35 & 0.90\\
+%\hline
+%  \end{tabular}
+%\caption{Simulation parameters used to achieve the maximum gains for three further capsules. These optimisations were done after the main campaign. The three-pulse sequences for these capsules were not fully optimised, and so have not been tabulated.}
+%\label{tab:ThirdHarmonic_2}
+%\end{table}

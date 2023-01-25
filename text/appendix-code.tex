@@ -1,0 +1,131 @@
+%\begin{savequote}[8cm]
+%\textlatin{Cor animalium, fundamentum e\longs t vitæ, princeps omnium, Microco\longs mi Sol, a quo omnis vegetatio dependet, vigor omnis \& robur emanat.}
+
+%The heart of animals is the foundation of their life, the sovereign of everything within them, the sun of their microcosm, that upon which all growth depends, from which all power proceeds.
+ % \qauthor{--- William Harvey \cite{harvey_exercitatio_1628}}
+%\end{savequote}
+
+\chapter{\label{app:1-cardiophys} Key code}
+
+\minitoc
+
+
+\section{Capsule Meshing}
+To represent the target in Hyades in any of the three available geometries (planar, cylindrical or spherical), a mesh must be created which breaks the target into a large number of smaller zones. The necessary quantities (density, temperature, pressure etc.) are calculated at the center point of each zone, and the mesh size therefore defines both the resolution of the simulation and the accuracy of the calculation. In Hyades, different regions of the target can be specified by different meshes. 
+
+The mesh command in the Hyades input deck will create mesh between two specified positions $R_1$ and $R_2$, with given number of zones/mesh points $n$, and a fixed ratio between successive mesh thicknesses $\alpha$. This can be applied to different regions to create meshes with different ratios between points, so that the whole capsule can be described.
+
+Typically, there are a few requirements that the mesh needs to satisfy:
+\begin{itemize}
+    \item A particular resolution / zone size at the target edges (in spherical, this is at the center and outer edge of the capsule).
+    \item A small (typically >2\%) mass difference between neighbouring zones.
+    \item A sufficiently low number of zones, so that the simulation runs in an appropriate time-frame.
+\end{itemize}
+
+Maintaining a small mass difference between neighbouring zones becomes challenging at the interface between materials of different density. If a low density material is in contact with a high density one, then the zone size in the high density region will be required to be much smaller. This can lead to a very large number of mesh points, which can make the simulation unfeasible. Therefore, effort has to be made to design a mesh which satisfies this, while also increasing the zone size where available to reduce the overall number of zones.
+
+The meshing script used for this work was based on the below principles. The mesh was broken up into multiple regions (at least one for every material layer present). Appropriate zone thicknesses were chosen for the edges of these regions, and the theory below was used to find the appropriate number of zones $n$ and scaling $\alpha$ to satisfy these constraints.
+
+\subsection{Theory}
+
+In this section, the theory used to identify the number of zones $n$ and scaling $\alpha$ is described. To do this, four values are required: the start and end position of the region $R_1$, $R_2$ and the desired thickness of the first and last region $t_1, t_2$. This provides two constraints; the end zones must have these thicknesses, but the sum of all the zone thicknesses in this region must satisy the region length. This leads two simultaneous equations which can be solved for $n$ and $\alpha$.
+
+\subsubsection{Derivation}
+Let $i = 1...N$ be the zone index, where $i=1$ is the first zone with radius $R_1$ and thickness $t_1$ and $i=n$ is the last zone with radius $R_n$ and thickness $t_n$. $\alpha$ is the ratio between the thickness of successive zones in this region, such that 
+\begin{equation}{\frac{t_{i+1}}{{t_i}}. = \alpha.}\end{equation}
+The thickness of zone $i$ can therefore be described as
+\begin{equation}{t_i = t_1 \cdot \alpha^{i-1}.}\end{equation}
+The ratio of the thicknesses of the first and last zone can therefore be expressed 
+\begin{equation}{\frac{t_{i_n}}{{t_1}}. = \alpha^{n-1},}\end{equation}
+which can be rearranged to give
+\begin{equation}{\label{eqn: SimEqn1} \alpha = ( \frac{t_{i_n}}{{t_1}} )^{1/(n-1)}.}\end{equation}
+As both $t_1$ and $t_n$ are known, this is a first simultaneous equation in terms of $\alpha$ and $n$.
+
+The known endpoints of the region can be used to define the region length. It is clear that the sum of all the zone thicknesses must equal this, and thus
+\begin{equation}{L = R_2 - R_1 = t_1 \cdot \sum_{i=1}^{n} \alpha^{i-1} = t_1 \cdot \sum_{i=0}^{n-1} \alpha^{i}.}\end{equation}
+The thickness of the first zone, $t_1$, can therefore be expressed in terms of the number of zones and the thickness ratio,
+\begin{equation}{t_1  = \frac{R_2 - R_1}{\sum_{i=0}^{n-1} \alpha^{i}}.}\end{equation}
+Applying the standard solution for the geometric sequence, 
+\begin{equation}{{\sum_{i=0}^{n-1} \alpha^{i}} = \frac{1 - \alpha^n}{1 - \alpha},}\end{equation}
+gives a final expression for this known thickness of 
+\begin{equation}{t_1  = ( \frac{1 - \alpha}{1 - \alpha^n} )\cdot (R_2 - R_1).}\end{equation}
+This can be rearranged to obtain an expression for the number of zones $n$ in terms only of $\alpha$ and known quantities,
+\begin{equation}{\label{eqn: SimEqn2} n  =  \log_{\alpha} (1 - \frac{ (1-\alpha) \cdot(R_2 - R_1)}{t_1} )}\end{equation}
+the second simultaneous equation.
+
+The pair of simultaneous Equations \ref{eqn: SimEqn1} and \ref{eqn: SimEqn1} can then be solved numerically to return the number of zones and zone ratio $n$ and $\alpha$ required to describe the region with end positions $R_1$ and $R_2$ and thicknesses $t_1$ and $t_n$ in Hyades.
+
+Masses can then also be calculated for each mesh zone, by estimating the zone size and multiplying by the density of the relevant material. For a planar geometry, the zone size is proportional to the zone thickness. However, for spherical geometries, the volume of zone $i$ is proportional to $4 \pi R_i^2 \cdot t_i$ (since each zone is actually a thin shell of a sphere).
+
+\subsubsection{Implementation}
+The challenge in meshing the capsule thus becomes choosing appropriate mesh thicknesses. The zones must be small at the capsule center and edges (for accuracy), and larger away from these edges (for speed), while maintaing mass matching at the boundaries. Generally, this problem therefore became setting one region per material layer, and choosing appropriate boundary thicknesses so that 1) there was a valid solution to Equations \ref{eqn: SimEqn1} and \ref{eqn: SimEqn1} 2) neighbouring zones changed mass at an appropriate rate, while using as few zones as possible.
+
+The meshing was done as follows. The vapour region was meshed with 150 zones, with a constant thickness ratio. These occur at small radii, so mass matching in this region is impossible. The thickness of the first wetted-foam zone is calculated so that it perfectly mass-matches the last vapour zone. The zone thickness then increases in the foam until it reaches the CH boundary. The CH and foam are again mass-matched, and the CH zone thickness decreases until it reaches the specified thickness at the capsule edge. This setup has one `free' parameter - the thickness at the foam/CH boundary.
+
+This foam/CH thickness was varied by trial and error for a single capsule until an appropriate meshing was obtained which satisfied the mass-matching for a low number of zones. A scaling relation for this thickness was then found semi-empirically (some terms were found based on physical arguments, and others based on trial and error), which allowed this thickness to be scaled for variations on the capsule dimensions while still maintaining comparable mass-differences between the ice layers.
+
+The final meshing script used for the optimisation campaign actually used two regions in the CH layer. As this layer had a much higher density than the foam, there was often a large number of zones in this material with a relatively small mass difference. The CH layer was therefore split in two; the first layer maintained a relatively large CH zone size to reduce the zone number, while the second layer aimed for the maximum permissible 2\% mass matching criteria to bring the zone mass down to the size required at the outer edge. This worked well for the majority of capsule designs considered, but failed in cases where the CH layer was thinner; in these cases, the three layer setup discussed above was used.
+
+Overall, this meshing script was sufficient for the optimisation campaign to be conducted. It allowed meshes to be automatically produced for a given capsule, and was robust enough to do this over the range of different capsules typically considered. This was essential for running large parameter scans where 100-200 different capsules were being simulated at a single time. The meshing script would fail or perform poorly if the capsule began to vary too far from the configuration it was designed for (for instance, if the layer thicknesses began to vary too drastically) - but these capsules generally did not perform well anyway (generally, this was either for very thin shells - where the implosion velocity and IFAR would not have fit the necessary criteria, or for very thick shells, where the ion temperature would be too low for substantial fusion to occur).
+
+
+%\label{appdx: Capsule Meshing}
+
+
+
+\section{Geometrical Optics Code} \label{appdx: Ray Tracing}
+
+Under standard geometric optics, a ray $R$ can be decribed by a vector describing it's position $y$ and angle $\theta$ as 
+\[R = 
+\begin{bmatrix}
+           y \\
+           \theta \\
+         \end{bmatrix}.
+         \]
+         
+Using this formalism, the rays motion through free space and a range of optical components can be calculated. Components can be described using matrices \cite{Gerrard1975}, which are applied in sequence to the ray. For instance, the matrix describing free space propagation over a distance $d$ is
+\[M_{vacuum} = 
+\begin{bmatrix}
+           1 & d \\
+           0 & 1 \\
+         \end{bmatrix},
+         \]
+while the matrix describing the effect of a lens with focal length $f$ is 
+\[M_{lens} = 
+\begin{bmatrix}
+           1 & 0 \\
+           -\frac{1}{f} & 0 \\
+         \end{bmatrix}.
+         \]
+These matrices are applied in the order that the ray passes through them; if an initial ray $R_i$ passes through component 1 and then component 2, then the final ray $R_f$ is given by $R_f = M_2 \cdot M_{1} \cdot R_i$.
+
+The ray tracing code produced for this work allows the user to specify the radius of the target being imaged, the number of rays to be simulated, and the optical setup, which can consist of lenses, free space, and `non-focussing components'. Non-focussing components are used to specify components that do not affect the beam propogation, such as filters and beamsplitters. Any number of components can be specified. 
+
+The code then generates the requested number of rays at the target. The position of each ray on the target is generated at random. For each position, the angular limits for which the ray would be captured by the first lens are calculated, and an angle for the ray is generated at random within this range (this avoids simulating rays which do not enter the lens setup). Propagation through each stage of the setup is then performed on all the rays using the relevant matrix, and the ray position and angle after that stage calculated. At each component position (lens or `non-focussing'), the code checks to see if the ray radius is within the component radius. If not, the ray is considered `lost'. The code then calculates the fraction of rays that make it to the end of the setup, and uses this to calculate the overall transmission. The transmission as a function of ray position at the target can also be calculated in order to assess the level of vignetting present in the setup.
+
+The code also recognises the image planes in the setup. It indicates the position of these, and the magnification of the image at that point. A plot is produced showing the ray propagation through the system, the different components, and the position of the image planes - as seen in Figure \ref{fig:Ray trace}.
+
+\section{VISAR analysis}
+\label{appdx: VISAR analysis}
+This section describes how the velocity information encoded in the VISAR fringe pattern can be obtained. This approach is based on the method first outlined by Takeda \textit{et al.} \cite{Takeda1982}, and well outlined in \cite{Celliers2004}. A step-by-step explanation is also presented by \cite{Hammel2017}
+
+The signal recorded on the VISAR streak camera $S(x,t)$ can be described as 
+\begin{equation} S(x,t) = B(x,t) + A(x,t) \cos[ \phi (x,t) + 2\pi f_0 x + k\epsilon ]. \end{equation}
+This equation is in agreement with the pattern described in Equation \ref{eqn:VISAR eqn}, but with a few minor adaptations. Firstly, a background term $B(x,t)$ and amplitude term $B(x,t)$ have been included (this was neglected in Equation \ref{eqn:VISAR eqn}, which describes the functional form of an ideal signal). In addition, the linear ramp $kx\sin\theta$ has been expressed as $2\pi f_0 x$ where $f_0$ is referred to the carrier frequency (the frequency of the fringes). In this Equation, $\phi(x,t)$ is used to refer to the phase difference containing the data ($kd$ in \ref{eqn:VISAR eqn}, where d is now a function of position and time), and as before, $k\epsilon$ is the constant phase offset introduced by the interferometer. This can be rewritten in exponential form as 
+\begin{equation} S(x,t) = B(x,t) + C(x,t) \exp(i2\pi f_0 x + ik\epsilon) + c.c, \end{equation} where 
+\begin{equation} C(x,t) = \frac{1}{2} A(x,t) \exp(i\phi(x,t)). \end{equation}
+To analyse this, a 1D Fourier transform is performed of the image, giving data of the form
+\begin{equation} s(f,t) = b(f,t) + c(f - f_0,t) + c*(f + f_0,t). \end{equation}
+In the fourier spectrum, this is displayed as 3 peaks: one at $f=0$, and one each at $f = \pm f_0$. The image is filtered so that only the top or bottom node remains,
+\begin{equation} s(f,t) = c(f - f_0,t). \end{equation}
+The data is then shifted by $f_0$ to place this peak at $f=0$, which removes the carrier frequency (the spatial fringes) from the data,
+\begin{equation} s(f,t) = c(f,t). \end{equation}
+An inverse Fourier transform is performed, giving 
+\begin{equation} D(x,t) = C(x,t) = \frac{1}{2}A(x,t)\exp(i\phi(x,t)) = \frac{1}{2}A(x,t)[\cos(\phi) + i\sin(\phi)]. \end{equation}
+Looking at the real ($\Re$) and imaginary ($\Im$) parts of $D(x,t)$\footnote{Note that \cite{Celliers2004} has the real part over the imaginary. I believe this is wrong, and Marko's thesis has it this way too.}, it is clear that 
+\begin{equation} \frac{\Im[D]}{\Re[D]} = \tan(\phi), \end{equation}
+and therefore that the phase difference can be obtained from 
+\begin{equation} \phi = \tan^{-1}(\frac{\Im[D]}{\Re[D]}). \end{equation}
+
+This returns the phase, but the data is wrapped between $-\pi$ and $\pi$. This is unwrapped to give a continuous curve without discontinuities using a phase unwrapping algorithm. Finally, this continuous curve can be converted into the surface velocity $v(x,t)$ by scaling via the VPF (since by definition, the VPF is the velocity change that occurs each complete phase shift - i.e., every phase change of $2\pi$:
+\begin{equation} v(x,t) = \frac{VPF}{2\pi} \cdot \phi(x,t). \end{equation}
