@@ -74,24 +74,63 @@ which is known as the Vlasov equation. This equation can then also be further ex
 
 The Vlasov equation (with or without collision operators) can be simulated in so-called Vlasov codes, which calculate the velocity distribution of the plasma at each timestep. Such codes are useful for simulating kinetic effects in plasmas, such as Landau damping, which are not well described by other (more approximate) codes. However, such codes are computationally expensive, and it is not feasible to simulate them over the time and length scales necessary for an ICF implosion.
 
-\subsection{The fluid approximation}
+\subsection{The fluid equations}
 
-The fluid approximation makes the assumption that the velocity distribution of the plasma is assumed to be Maxwellian at all positions, and thus $\hat{f}$ can be described 
-\begin{equation} \hat{f} = (m / 2\pi KT)^{3/2} \exp{-v^2/v_{th}^2}, \end{equation} where $v = \sqrt{v_x^2 + v_y^2 + v_z^2}$ and $v_{th} = \sqrt{2KT/m}$.
+%The fluid approximation makes the assumption that the velocity distribution of the plasma is assumed to be Maxwellian at all positions, and thus $\hat{f}$ can be described 
+%\begin{equation} \hat{f} = (m / 2\pi KT)^{3/2} \exp{-v^2/v_{th}^2}, \end{equation} where $v = \sqrt{v_x^2 + v_y^2 + v_z^2}$ and $v_{th} = \sqrt{2KT/m}$.
 
-Fluid variables can be derived by taking moments of the distribution function. The first three moments, producing density, momentum (velocity) and pressure, are shown below:
-\begin{equation} n = \int^{\infty}_{-\infty} f d\vec{v} \end{equation}
+The Boltzmann equation describes the evolution of the distribution function, which is the complete mathematical description of the plasma. Fluid variables, which vary as a function of $\vec{r}$ and $t$, can be obtained by taking moments of velocity of the distribution function (i.e. performing the integral $ \int^{\infty}_{-\infty} v^i f d\vec{v} $, where $i$ represents the moment being taken). The first three moments return the particle density $n$, fluid velocity $\vec{u}$, and pressure tensor $\vec{P}$:
+
+\begin{equation} n = \int^{\infty}_{-\infty} f d\vec{v}  \end{equation}
 \begin{equation} p = mn\vec{u} = \int^{\infty}_{-\infty} \vec{v} f d\vec{v} \end{equation}
-\begin{equation} P = mn\vec{u} = \int^{\infty}_{-\infty} \vec{v} f d\vec{v} \end{equation}.
+\begin{equation} \underline{\underline{P}} = mn\vec{u} = \int^{\infty}_{-\infty} (\vec{v} - \vec{u})(\vec{v} - \vec{u}) f d\vec{v}.  \end{equation}
 
-Fluid equations (which are used to describe the behaviour of the fluid) can be obtained by taking moments of the Boltzmann equation. The first moment of the equation (i.e. integrating the Vlasov equation directly) results in the `equation of continuity', \begin{equation} \frac{\partial n}{\partial t} + \div{n \vec{u}} = 0. \end{equation} The second moment (multiplying the Boltzmann equation by $m\vec{v}$ and integrating) gives rise to the fluid equation of motion,
-\begin{equation} mn[\frac{\partial \vec{u}}{\partial t} + (\vec{u} \cdot \grad)\vec{u}] = qn(\vec{E} + \vec{u} \times \vec{B}) - \grad \cdot \vec{P} + \vec{P}_{ij}. \end{equation} The next moment (multiplying the Boltzmann equation by $\frac{1}{2} m \vec{v}\vec{v}$ and integrating) would give the conservation of energy or heat flow equation.
+Fluid equations governing the evolution of each of these variables can also be obtained, by taking the equivalent moment of the Boltzmann equation. Under the fluid approximation, these equations are solved to describe the evolution of the plasma as a fluid; no knowledge of the distribution function is required.
 
-In principle, these fluid equations can be used to describe the motion of the plasma in a fluid code. However, it should be noted that each evolution equation requires the next moment of the fluid equation to be known (i.e. the first moment of the Boltzmann equation - the continuity equation - requires knowledge of $\vec{u}$, the second moment of the distribution function; this system can therefore not be closed using these equations alone. An additional equation is required. Typically, this is the `Equation of state', which expresses the pressure of the material in terms of the density (this can be a real equation, or tabulated data). The pressure can then be evaluated without resorting to the next moment, and thus the system is closed.
+The zeroth moment of the Vlasov equation is obtained by integrating each term (technically, this also requires multiplying by $v^0 = 1$). Doing this integration returns the \textit{continuity equation},
+\begin{equation} \frac{\partial n}{\partial t} + \div (n \vec{u}) = 0. \end{equation}
 
-A range of varaitions of `fluid codes' are used. In the MHD (magnetohydrodynamics) formalism, the plasma is treated as a single fluid which is assumed to maintain quasi-neutrality and have negligible electron intertia. In two-fluid codes, the electron and ions are treated as two seperate interacting fluids, and the equations are solved for these two fluids separately. Finally, radiation-hydrodynamics codes model a third radiation field `fluid', which can also interact with the electron and ion species.
+Next, the Vlasov equation is multiplied by the first order moment, $m\vec{u}$. This results in the \textit{equation of motion,}
+\begin{equation} mn(\frac{\partial \vec{u}}{\partial t} + (\vec{u} \cdot \grad)\vec{u}) = qn(\vec{E} + \vec{u} \times \vec{B}) - \div \underline{\underline{P}} + \underline{\underline{P}}_{ij} .\end{equation}
 
-Fluid codes (which utilise some formulation of the fluid approximation) are extremely useful for modelling inertial confinement fusion implosions. It is important to note their limitations. By assuming a Maxwellian velocity distribution, the approximation is only strictly valid for collisional plasmas (where the collisions will ensure the fluids relax to a Maxwellian. In addition, the assumptions made in deriving the equations mean that some potentially important effects are not included in the code (for instance, the generation of Langmuir waves which require sustained electric fields and occur over short timescales). However, these assumptions simplify the description to a point where it is feasible to run simulations over the long length and timescales required for the implosion, which forms an essentially part in modelling these reactions.
+Finally, multiplying by the second order moment, $mv^2 / 2$, returns the energy equation,
+\begin{equation} \frac{ \partial}{\partial t} (\rho \epsilon) = \div (\rho \vec{u} \epsilon) - \div (P \vec{u}) + \phi - \div \vec{F} + Q. \end{equation}
+There are multiple ways to present this equation; the one presented here has had the kinetic energy subtracted from both sides, and has grouped terms into a dissipation function $\phi$ (containing material viscosities), and $Q$ is the energy exchange from collisions. The term $F$ is the heat flux, and $\epsilon$ is the internal energy of the fluid.
+
+The fluid equations can be used to describe the evolution of the fluid variable directly, without consideration of the distribution function. However, note that the i'th order fluid equation always contains the (i+1)'th moment; the first-order equation of motion contains the second order Pressure term, while the second order energy equation contains the third order heat flux. Such a system of equations will therefore never form a closed set, and an additional equation is required to close it.
+
+\section{Magnetohydrodynamics}
+The equations in the previous section are sometimes referred to as the `two-fluid' equations, since there is a continuity equation and equation of motion for each of the two species (ions and electrons). A common approximation, Magnetohydrodynamics, can be obtained by making a series of assumptions. The basic outline of Magnetohydrodynamics is shown here, considering (for simplicity) a collisionless plasma and the first two moments of the Vlasov equation (this can be extended to include both collision operators, and the energy equation).
+
+For Magnetohydrynamics, the continuity and equations of motion for the electron and ion fluids (with mass $m_s$, number density $n_s$ and charge $q_s$, where the species $s = i,e$ represents ions or electrons respectively) are combined into a single fluid. This fluid is described by it's mass density $\rho$, charge density $\sigma$, mass-averaged velocity $\vec{U}$, current density $\vec{J}$, and total pressure $\underline{\underline{P}}$. These four variables are calculated from the two ion species as
+\begin{equation} \rho = m_i + m_e,  \end{equation}
+\begin{equation} \vec{U} = \frac{m_i n_i \vec{u_i} + m_e n_e \vec{u_e}}{ m_i + m_e},  \end{equation}
+\begin{equation} \underline{\underline{P}} = \underline{\underline{P}}^i + \underline{\underline{P}}^e,  \end{equation}
+\begin{equation} \sigma = q_i n_i + q_e n_e,  \end{equation}
+\begin{equation} \vec{J} = q_i n_i \vec{u_i} + q_e n_e \vec{u_e}.  \end{equation}
+
+Continuity equations for the single-fluid can be obtained by summing the individual continuity equations for the ions and electrons. This gives the \textit{conservation of mass} equation,
+\begin{equation} \frac{\partial \rho}{\partial t} + \div (\rho \vec{U}) = 0. \end{equation}
+A conservation of momentum equation can likewise be obtained, by summing the equations of motion for the two individual species,
+\begin{equation} \frac{\rho \vec{U}}{\partial t} + (\vec{U} \cdot \grad)\vec{U} =\vec{J} \times \vec{B} - \div \underline{\underline{P}} .\end{equation}
+
+An equation for the current density is obtained by multiplying the ion and electron equations of motion by the relevant charge over mass $q_s/m_s$, and summing the two. The algebra for this is complicated, and to reach the final equation some of the key assumptions of ideal MHD are required:
+\begin{itemize}
+	\item{The plasma is quasi-neutral, such that $\sigma$ is approximately zero (this has the effect that Gauss' law, $\div \vec{E} = \sigma / \epsilon_0$, cannot be used over large length scales in the plasma).}
+	\item{The length scales and time scales of interest in the plasma are large (i.e. much longer than the period of a plasma oscillation, or a debye length).}
+	\item{The effects of electron inertia are negligible, i.e. $m_e \ll m_i$.}
+\end{itemize}
+Applying these assumptions and completing the algebra allows the \textit{Generalised Ohm's law} to be derived, 
+\begin{equation} \vec{E} = -\vec{U}\times\vec{B} + \frac{\vec{J} \times \vec{B}}{n_e} - \frac{\div \underline{\underline{P}}^e}{n_e}. \end{equation}
+
+
+
+
+
+
+
+
+
 
 \section{Additional physics models required for hydrocodes}
 

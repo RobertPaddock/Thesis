@@ -451,4 +451,5 @@
 
 \usepackage{physics}
 \usepackage{subfigure}
+
 \DeclareUnicodeCharacter{2212}{\textendash}
