@@ -121,11 +121,21 @@ An equation for the current density is obtained by multiplying the ion and elect
 	\item{The effects of electron inertia are negligible, i.e. $m_e \ll m_i$.}
 \end{itemize}
 Applying these assumptions and completing the algebra allows the \textit{Generalised Ohm's law} to be derived, 
-\begin{equation} \vec{E} = -\vec{U}\times\vec{B} + \frac{\vec{J} \times \vec{B}}{n_e} - \frac{\div \underline{\underline{P}}^e}{n_e}. \end{equation}
+\begin{equation} \vec{E} = -\vec{U}\times\vec{B} + \frac{\vec{J} \times \vec{B}}{n_e} - \frac{\div \underline{\underline{P}}^e}{n_e} + \eta \cdot \vec{J}. \end{equation}
+This equation is further simplified in ideal MHD by ignoring the pressure and $\vec{J} \times \vec{B}$, and assuming no collisions (which leads to the disappearance of the $\eta \cdot \vec{J}$ term, where $\eta$ is the resistivity). This leads to a simplified form of 
+\begin{equation} \vec{E} = -\vec{U}\times\vec{B} . \end{equation}
 
+%The last few MHD equations are obtained by considering Maxwell's equations. Ampere's law, $\frac{\partial \vec{E}}{\partial t} = c^2 (\div (\grad \times \vec{B} - \mu_0 \vec{J}) )$, is reduced by the the MHD assumptions (particularly that of long time scales) to give )
+%\begin{equation} \frac{\partial \vec{E}}{\partial t} = c^2 (\div (\grad \times \vec{B} - \mu_0 \vec{J}) ) \end{equation}
 
+The ideal MHD equations are then closed using Maxwell's equations (in particular, forms of Ampere's and Faraday's laws reduced by the MHD approximations) and the equation of state. This gives the complete set of ideal single-fluid MHD equations, repeated below:
 
-
+\begin{equation} \frac{\partial \rho}{\partial t} + \div (\rho \vec{U}) = 0. \end{equation}
+\begin{equation} \frac{\rho \vec{U}}{\partial t} + (\vec{U} \cdot \grad)\vec{U} =\vec{J} \times \vec{B} - \div \underline{\underline{P}} .\end{equation}
+\begin{equation} \vec{E} = -\vec{U}\times\vec{B} . \end{equation}
+\begin{equation} \div \times \vec{B} = \mu_0 \vec{J} \end{equation}
+\begin{equation} \div \times \vec{E} = - \frac{\partial \vec{B}}{\partial t} \end{equation}
+\begin{equation} P = P(\rho) \end{equation}
 
 
 
