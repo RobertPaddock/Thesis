@@ -2,7 +2,7 @@
 %\textlatin{Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...}
 
 %There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain...
- % \qauthor{--- Cicero's \textit{de Finibus Bonorum et Malorum}}
+% \qauthor{--- Cicero's \textit{de Finibus Bonorum et Malorum}}
 %\end{savequote}
 
 \chapter{\label{ch:intro}Introduction} 
@@ -12,21 +12,27 @@
 \section{Introduction}
 Nuclear fusion is the process through which small nuclei (typically isotopes of Hydrogen) fuse together to form larger nuclei, with an associated release of energy. From small acorns mighty forests grow, and this simple process is the energy source that powers the stars, formed all the elements in the universe, and will hopefully one day produce electricity for the National Grid. Yet despite decades of research on this topic, the goal of a fusion reactor remains out of reach.
 
-There are now a large variety of approaches to fusion being studied in laboratories around the world, but these fall broadly into two main categories. Magnetic confinement fusion is what the general public knows of fusion; a tokamak uses strong magnetic fields to confine a plasma, while it is heated to extreme temperatures. If the plasma is hot enough it will begin to produce energy, and the battle is to keep hold of the plasma and stop it from expanding, touching the reactor and cooling down. The second approach, Inertial Confinement Fusion, is the focus of this thesis. In this case, the hydrogen fuel is compressed to extreme temperatures and densities (the highest ever achieved on earth). It is not possible to sustain these conditions; the pressure in the capsule quickly overcomes the compressive forces, and the capsule explodes outwards again \footnote{It is slightly confusing to describe a process where the capsule ends up exploding uncontrollably as `confinement', but this name refers to the fact that in ICF the capsule is briefly `confined' by it's inertia, as opposed to MCF where it is confined by magnetic fields}. However, in the brief period where the fuel is compressed the conditions are sufficient for fusion to occur, and the energy generated in that short time must therefore be sufficient to make the whole process worthwhile.
+There are now a large variety of approaches to fusion being studied in laboratories around the world, but these fall broadly into two main categories. Magnetic confinement fusion (MCF) is the more conventional approach to fusion; a reactor called a tokamak uses strong magnetic fields to confine a plasma heated to extreme temperatures. If this plasma is hot enough it will begin to produce energy through fusion, and if it can be confined for sufficient times the generated energy can be extracted (otherwise the plasmas expands, touches the reactor, and rapidly cools). The second approach, inertial confinement fusion (ICF) is the focus of this thesis. In ICF, a capsule containing hydrodgen fuel is instead compressed to extreme temperatures and densities - the highest ever achieved on earth. Such conditions cannot be sustained; as the capsule implodes the pressure inside quickly rises, and this will eventually overcome the drive pressure and cause the capsule to explode outwards (the fuel is `confined' only briefly, by it's own inertia). However, if the temperature and density are high enough in the brief period where the fuel is maximally compressed large numbers of fusion reactions can be generated, and the energy produced by these reactions can be larger than that required to drive the reaction. The compression in ICF is typically achieved using lasers. In `direct-drive' (the main focus of this thesis) the lasers irradiate the capsule directly to provide the compression, while in `indirect-drive' (performed at the National Ignition Facility) the lasers are used to generate an x-ray bath which compresses the capsule. The end result is the same; the lasers/x-rays ablate material from the capsule, accelerating the outer layers inwards and compressing the fuel inside. This drives high temperatures and densities, ionising the fuel and turning it into a plasma.
 
-The compression in ICF is typically achieved using lasers. In `direct-drive' (which I focus on in this thesis) the lasers irradiate the capsule directly to provide the compression, while in `indirect-drive' (performed at the National Ignition Facility) the lasers are used to generate an x-ray bath which compresses the capsule. The end result is the same; the lasers/x-rays ablate material from the capsule, accelerating the outer layers inwards and compressing the fuel inside. This drives high temperatures and densities, ionising the fuel and turning it into a plasma.
+The main facility performing ICF implosions in that National Ignition Facility, at Lawrence Livermore National Laboratory in California. At the NIF, 192 beams provide up to 2.1 MJ of laser energy which is used to compress the capsule (typically using the indirect-drive approach). The NIF has now been in operation for just over a decade during which it has demonstrated a continual improvement in achieved fusion performance - culminating in a shot in December 2022, when it achieved break-even (more energy out than laser energy in) for the first time. This is a momentous achievement, and represent the first time this has been achieved in any fusion experiment (MCF, ICF, or otherwise). This has sparked fresh excitement about this approach, and makes it an exciting time to be working in the field.
 
-ICF capsules can have a range of different structures and materials. The most successful tend to have a central vapour region which initially contains gaseous deuterium-tritium, surrounded by a layer of DT ice (providing the main `fuel' for the reaction), and a thin plastic shell. This thesis will focus on a new variation of this design, where the conventional ice layer is instead replaced with a low density carbon foam, saturated with liquid DT. This is equivalently known as a `liquid-layer' or a `wetted-foam layer'. Such designs have significant promise for ICF applications, in-particular through the unprecedented level of control they enable over the degree of convergence that the capsule undergoes. They also have the potential to be low-cost and simpler to produce than conventional targets, which makes them well-suited to a future fusion reactor (which requires a large supply of cheap to manufacture targets). 
+Despite this, there remains significant work to be done on this topic. Firstly, for a successful inertial fusion energy power plant, a much higher fusion output (a gain, or energy out vs energy in, of 50-100) is required; this is necessary to cover the energy use in generating the laser beams and inside the power plant, and to make the whole operation financially viable. The cost of such a facility would be large, and a range of analyses have been performed to estimate the cost per unit energy required to make such power stations competitive. The reactor would also need to operate at high repetition rate, on the order of multiple shots a second, as opposed to the roughly one shot a day that the NIF can currently provide. Along with improvements to the laser technology, and the design of a reactor that could supply targets at this rate and deal with the high neutron flux, this would require a supply of targets that can be made quickly and repeatably at low cost.
+
+ICF capsules can have a range of different structures and materials. The most successful tend to have a central vapour region which initially contains gaseous deuterium-tritium, surrounded by a layer of DT ice (providing the main `fuel' for the reaction), and a ablator layer. Such was the design used for the recent record NIF shot. These targets can be made to high precision, but are currently expensive and time consuming to produce. This thesis is broadly focussed on a new variation of this design, where the conventional ice layer is instead replaced with a low density carbon foam, saturated with liquid DT. These are referred to as `liquid-layer' or `wetted-foam' capsules. Such designs have significant promise for ICF applications, as they have a range of properties that make them well suited to IFE applications. It is hoped that such capsules could be produced cheaply and with relative ease, making them well suited to a potential fusion reactor. \hl{Comment on foam production, 3D printing}.
+
+In addition to these practical benefits, wetted-foam capsules also allow interesting new avenues of research to be investigated. The use of liquid rather than ice DT means that the capsules are fielded at higher temperatures relative to capsules containing DT ice (19 - 25 K, rather than below the 19K DT freezing point for ice capsules). This results in higher vapour densities and pressures in the central DT vapour, which can be used to generate low convergence ratio implosions - i.e., implosions when the capsule compression is reduced compared to a normal ICF implosion. This leads to lower ideal fusion yields, but such implosions have been shown to be less susceptible to the hydrodynamic instability growth that plagues ICF implosion.
+
+This thesis covers two major pieces of work, based around wetted foam capsules and their potential for low-convergence ratio implosions. First, a range of simulations are used to investigate the possible fusion performance of such capsules (using a variety of different techniques and technologies) in a low-instability regime defined by low convergence ratio. In the second, an experiment is planned, performed and analysed to investigate the compression behaviour of a foam material relevant to these designs, to inform future modelling and simulation efforts of such foams (in preparation for a future experiment based on approaches suggested in the first chapter).
 
 \section{Structure of the thesis}
 
-The structure of this thesis is as follows:
+This thesis will explore a range of topics related to wetted-foam ICF capsules, and the low-convergence ratio implosions that they can result in. It is seperated into the following chapters :
 \begin{itemize}
-    \item \hl{Chapter} will outline the fundamental theory underpinning the later chapters. This will include the basic science required to understand, describe, and simulate plasmas, and a brief overview of the basics required to understand an ICF reaction. Finally the physics of shocks in a material will be described, which is essential for the understanding of the experiment described in the latter chapters.
-    \item \hl{Chapter} will describe a simulation campaign to investigate the fusion performance of ICF wetted foam capsules, restricted to a regime where instability growth is expected to be minimal. This regime and the simulation campaign itself will be described, along with the results it achieved. The nature of the simulations used will also be discussed.
-    \item \hl{Chapter} will then focus on alternative techniques that could be used to build upon the results of \hl{Chapter}. This will include further simulation campaigns investigating different laser drivers, and the use of `auxilliary heating' through electron beams.
-    \item The next two chapters will then focus on experimental work investigating the equation of state of a TMPTA plastic foam relevant to these previous designs. \hl{Chapter} will focus on the principles of the experiment, and the preparation work performed beforehand, while \hl{Chapter} will focus on the data analysis and interpretation of the results.
-    \item Finally, \hl{Chapter} will summarise and conclude the thesis. There are also two appendices, which will focus on the operation of key code for this work, and on further experimental details.
+	\item \hl{Chapter} will outline the fundamental theory underpinning the later parts of the thesis. This will include the basic science required to understand, describe, and simulate plasmas, and a brief overview of an ICF implosion and the instabilities that may affect it. Finally the physics of shocks in a material will be described, which is essential for the understanding of the experiment described in the latter chapters.
+	\item \hl{Chapter} will describe a simulation campaign to investigate the fusion performance of wetted-foam capsules, restricted to a regime where instability growth is expected to be minimal. This regime and the simulation campaign itself will be described, along with the results it achieved within it.
+	\item \hl{Chapter} will then focus on alternative techniques that could be used to build upon the results of \hl{Chapter}. This will include further simulation campaigns investigating different laser drivers, and the use of `auxilliary heating' through electron beams.
+	\item The next two chapters will then focus on experimental work investigating the equation of state of a TMPTA plastic foam relevant to these previous designs. \hl{Chapter} will focus on the principles of the experiment, and the preparation work performed beforehand, while \hl{Chapter} will focus on the data analysis and interpretation of the results.
+	\item Finally, \hl{Chapter} will summarise and conclude the thesis. There are also three appendices, which will focus on the operation of key code for this work, some bench-marking of the simulations, and on further details of the experimental setup.
 \end{itemize}
 
 \section{Author's contributions}
@@ -42,27 +48,27 @@ The experiment was a large European collaboration, and many people contributed t
 \section{List of peer-reviewed first author publications}
 
 \begin{itemize}
-\item Paddock, R. W., Martin, H., Ruskov, R. T., Scott, R. H. H., Garbett, W., Haines, B. M., Zylstra, A. B., Aboushelbaya, R., Mayr, M. W., Spiers, B. T., Wang, R. H. W., and Norreys, P. A. (2021). One-dimensional hydrodynamic simulations of low convergence ratio direct-drive inertial confinement fusion implosions. Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences, 379(2189), 20200224.
-\item Paddock, R. W., Martin, H., Ruskov, R. T., Scott, R. H. H., Garbett, W., Haines, B. M., Zylstra, A. B., Campbell, E. M., Collins, T. J. B., Craxton, R. S., Thomas, C. A., Goncharov, V. N., Aboushelbaya, R., Feng, Q. S., Von Der Leyen, M. W., Ouatu, I., Spiers, B. T., Timmis, R., Wang, R. H. W., and Norreys, P. A. (2022). Pathways towards break even for low convergence ratio direct-drive inertial confinement fusion. J. Plasma Phys, 88, 905880314. \textbf{(Featured article)}
+	\item Paddock, R. W., Martin, H., Ruskov, R. T., Scott, R. H. H., Garbett, W., Haines, B. M., Zylstra, A. B., Aboushelbaya, R., Mayr, M. W., Spiers, B. T., Wang, R. H. W., and Norreys, P. A. (2021). One-dimensional hydrodynamic simulations of low convergence ratio direct-drive inertial confinement fusion implosions. Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences, 379(2189), 20200224.
+	\item Paddock, R. W., Martin, H., Ruskov, R. T., Scott, R. H. H., Garbett, W., Haines, B. M., Zylstra, A. B., Campbell, E. M., Collins, T. J. B., Craxton, R. S., Thomas, C. A., Goncharov, V. N., Aboushelbaya, R., Feng, Q. S., Von Der Leyen, M. W., Ouatu, I., Spiers, B. T., Timmis, R., Wang, R. H. W., and Norreys, P. A. (2022). Pathways towards break even for low convergence ratio direct-drive inertial confinement fusion. J. Plasma Phys, 88, 905880314. \textbf{(Featured article)}
 \end{itemize}
 
 \section{List of conference presentations}
 
 \begin{itemize}
-\item Poster at `Prospects for high gain inertial fusion energy' discussion meeting at the Royal Society, 02 - 03 March 2020.
-\item Invited AWE plasma physics colloquium seminar (virtual), 07 January 2021.
-\item Oral presentation at AWE Physics Student Conference 2021 (virtual), 14-15 April 2021.
-\item Poster at European Physical Society (virtual), 21-25 June 2021.
-\item Oral presentation at APS DPP 2021 (virtual), 8-12 November 2021.
-\item Oral presentation at AI4ICF (in-person), Oxford, 6-7 December 2021.
-\item Oral presentation at OxCHEDS (in-person), 21-22 March 2022
-\item Oral presentation at AWE Materials and Analytical Student Conference 2022 (in-person), 4th-5th April 2022. 
-\item Oral presentation at DDFIW 2022 (in-person), 3-5 May 2022.
-\item Oral presentation at ECLIM 2022 (in-person), 19-23 September 2022.
-\item Invited ALP seminar at Oxford (in-person), 10 October 2022.
-\item Oral presentation at APS DPP 2022 (in-person), 17-21 October 2022.
-\item Invited CFSA seminar at Warwick (in-person), 1 November 2022.
-\item Poster and oral presentation at HPL 2022 (in-person), 19-21 December 2022.
+	\item Poster at `Prospects for high gain inertial fusion energy' discussion meeting at the Royal Society, 02 - 03 March 2020.
+	\item Invited AWE plasma physics colloquium seminar (virtual), 07 January 2021.
+	\item Oral presentation at AWE Physics Student Conference 2021 (virtual), 14-15 April 2021.
+	\item Poster at European Physical Society (virtual), 21-25 June 2021.
+	\item Oral presentation at APS DPP 2021 (virtual), 8-12 November 2021.
+	\item Oral presentation at AI4ICF (in-person), Oxford, 6-7 December 2021.
+	\item Oral presentation at OxCHEDS (in-person), 21-22 March 2022
+	\item Oral presentation at AWE Materials and Analytical Student Conference 2022 (in-person), 4th-5th April 2022. 
+	\item Oral presentation at DDFIW 2022 (in-person), 3-5 May 2022.
+	\item Oral presentation at ECLIM 2022 (in-person), 19-23 September 2022.
+	\item Invited ALP seminar at Oxford (in-person), 10 October 2022.
+	\item Oral presentation at APS DPP 2022 (in-person), 17-21 October 2022.
+	\item Invited CFSA seminar at Warwick (in-person), 1 November 2022.
+	\item Poster and oral presentation at HPL 2022 (in-person), 19-21 December 2022.
 \end{itemize}
 
 
