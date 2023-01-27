@@ -26,12 +26,12 @@ where $T_e$ is the electron temperature, $n$ is the number density of ions/elect
 where $N_D$ is the number of particles in a `Debye sphere', i.e. the number of electrons that would be in the Debye length of a charge, and thus available to shield it. Clearly for the charge to be effectively shielded and thus quasi-neutrality to be established, this number should be much larger than one.
 
 \subsection{Plasma oscillations}
-If the electrons in the plasma are displaced slightly from the ions\footnote{Given the mismatch between the ion and electron mass in a typical plasma, when considering short time scales the ions are often considered to be stationary compared to the highly mobile electrons}, there will be a restoring force generated. This will accelerate the electrons towards the ions, which they will then overshoot; this leads to oscillations of the electrons around the ions. The behaviour of such a wave can be calculated using the continuity equation and equation of motion for the electrons\footnote{These are derived in \hl{Section}, or can equally be derived by considering the electrons as a simple fluid.} and Poisson's equation,
+If the electrons in the plasma are displaced slightly from the ions\footnote{Given the mismatch between the ion and electron mass in a typical plasma, when considering short time scales the ions are often considered to be stationary compared to the highly mobile electrons}, there will be a restoring force generated. This will accelerate the electrons towards the ions, which they will then overshoot; this leads to oscillations of the electrons around the ions. Such oscillations can be derived using the continuity equation and equation of motion for the electrons\footnote{These are derived from kinetic theory in \hl{Section}, or can be derived by considering fluid motion as in \cite{Chen2015} and \cite{Piel2017}.} and Poisson's equation,
 \begin{equation} m n_e [\frac{\partial\vec{v_e}}{\partial t} + (\vec{v_e} \cdot \grad)\vec{v_e}] = -e n_e \vec{E} \end{equation}
 \begin{equation} \frac{\partial n_e}{\partial t} + \grad \cdot (n_e \vec{v_e}) = 0 \label{eqn: ElectronEoM} \end{equation}
 \begin{equation} \epsilon_0 \grad \cdot \vec{E} = e(n_i - n_e). \end{equation}
 This set of equations is solved through linearisation, and results in sinusoidal oscillations of the electrons at the plasma frequency, 
-\begin{equation} \omega_p = \left( \frac{n_0 e^2}{\epsilon_0 m}\right). \label{eqn: PlasmaFrequency}. \end{equation}
+\begin{equation} \omega_p = \left( \frac{n_0 e^2}{\epsilon_0 m}\right). \label{eqn: PlasmaFrequency} \end{equation}
 
 If a pressure term ($\div P_e = 3 k_B T_e \div n_e$) is added to the electron equation of motion (equation \ref{eqn: ElectronEoM}), then thermal motion of the electrons will cause the plasma oscillation to propagate as a plasma wave, with a dispersion relation described by
 \begin{equation} \omega^2 = \omega_p^2 + \frac{3}{2} k^2 v_{th}^2, \end{equation}
@@ -39,7 +39,7 @@ where $k$ is the wave vector and $v_{th} = \frac{2 k_B T_e}{m}$.
 
 Such waves are referred to as plasma waves, electron waves, Langmuir waves, or plasmons. The existence of such waves serves to illustrate the collective behaviour that defines plasmas. Another condition for a plasma can be defined through $\omega_p \tau \gg 1$, where $\tau$ is the collision time between charged and neutral ions - such a condition essentially expresses that plasma oscillations must occur faster than collisions with neutral atoms, such that electromagnetic forces govern the motion rather than normal hydrodynamic forces.
 
-A similar analysis can be used to derive a large range of possible oscillations in plasmas, in response to applied fields\footnote{It should also be noted that while plasmas effectively shield electric fields, magnetic fields are undamped. External magnetic fields therefore lead to large number of potential plasma modes} and electromagnetic waves. Two  significant results are highlighted. First, if the derivation is performed for ions (rather than electrons), the `ion-acoustic wave' is obtained. This is equivalent to a sound wave in a plasma, and has the dispersion relation
+A similar analysis can be used to derive a large range of possible oscillations in plasmas, in response to applied fields\footnote{While plasmas effectively shield electric fields, applied magnetic fields are and therefore lead to a large number of potential plasma modes.} and electromagnetic waves. Two  significant results are highlighted. First, if the derivation is performed for ions (rather than electrons), the `ion-acoustic wave' is obtained. This is equivalent to a sound wave in a plasma, and has the dispersion relation
 \begin{equation} \omega = k v_s, \end{equation} where $v_s$ is the plasma sound speed. Secondly, the dispersion relation for an electromagnetic wave in a plasma is given by 
 \begin{equation} \omega^2 = \omega_p^2 + c^2k^2. \end{equation}
 
@@ -87,13 +87,14 @@ Fluid variables, which vary as a function of $\vec{r}$ and $t$ only, can be obta
 \begin{equation} p = mn\vec{u} = \int^{\infty}_{-\infty} \vec{v} f d\vec{v} \end{equation}
 \begin{equation} \underline{\underline{P}} = \int^{\infty}_{-\infty} (\vec{v} - \vec{u})(\vec{v} - \vec{u}) f d\vec{v}.  \end{equation}
 
-Fluid equations governing the evolution of each of these variables can also be derived\footnote{This discussion focussed on deriving them from the kinetic description of plasmas, but they can be derived from first principles by considering the fluid evolution instead - see derivations in \cite{Chen2015} and \cite{Piel2017}}, by taking the equivalent moment of the Vlasov equation. Under the fluid approximation, these fluid equations are solved instead of the Vlasov equation to describe the plasma evolution; the reduced dimensionality reduces the computational cost, but means kinetic effects where the velocity distribution is important (such as the `bump-on-tail' instability and Landau damping) cannot be included.
+Fluid equations governing the evolution of each of these variables can also be derived\footnote{This discussion focussed on deriving them from the kinetic description of plasmas, but they can be derived from first principles by considering the fluid evolution instead - see derivations in \cite{Chen2015} and \cite{Piel2017}.}, by taking the equivalent moment of the Vlasov equation. Under the fluid approximation, these fluid equations are solved instead of the Vlasov equation to describe the plasma evolution; the reduced dimensionality reduces the computational cost, but means kinetic effects where the velocity distribution is important (such as the `bump-on-tail' instability and Landau damping) cannot be included.
 
 The zeroth moment of the Vlasov equation is obtained by integrating each term (technically, this also requires multiplying by $v^0 = 1$). Doing this integration returns the \textit{continuity equation},
 \begin{equation} \frac{\partial n}{\partial t} + \div (n \vec{u}) = 0. \end{equation}
 
 Next, the Vlasov equation is multiplied by the first order moment, $m\vec{u}$, before integrating (as shown in \cite{Chen2015}). This results in the \textit{equation of motion,}
-\begin{equation} mn(\frac{\partial \vec{u}}{\partial t} + (\vec{u} \cdot \grad)\vec{u}) = qn(\vec{E} + \vec{u} \times \vec{B}) - \div \underline{\underline{P}} + \underline{\underline{P}}_{ij} .\end{equation}
+\begin{equation} mn(\frac{\partial \vec{u}}{\partial t} + (\vec{u} \cdot \grad)\vec{u}) = qn(\vec{E} + \vec{u} \times \vec{B}) - \div \underline{\underline{P}} + \underline{\underline{P}}_{ie} ,\end{equation}
+where $\underline{\underline{P}}$ is the pressure tensor arising from inter-species particle reactions, and $\underline{\underline{P}}_{ij}$ is a tensor describing momentum exchange between species (for simplicity, both of these terms are often assumed to be isentropic and thus replaced with scalars).
 
 Finally, multiplying by the second order moment, $mv^2 / 2$, returns the energy equation,
 \begin{equation} \frac{ \partial}{\partial t} (\rho \epsilon) = \div (\rho \vec{u} \epsilon) - \div (P \vec{u}) + \phi - \div \vec{F} + Q. \label{eqn: Energy equation} \end{equation}
@@ -114,7 +115,8 @@ This section will outline briefly how the ideal MHD equations (the equations tha
 A continuity equation for the single-fluid can be obtained by summing the individual continuity equations for the ions and electrons. This gives the \textit{conservation of mass} equation,
 \begin{equation} \frac{\partial \rho}{\partial t} + \div (\rho \vec{U}) = 0. \end{equation}
 A conservation of momentum equation can likewise be obtained, by summing the equations of motion for the two individual species,
-\begin{equation} \frac{\rho \vec{U}}{\partial t} + (\vec{U} \cdot \grad)\vec{U} =\vec{J} \times \vec{B} - \div \underline{\underline{P}} .\end{equation}
+\begin{equation} \frac{\partial \rho \vec{U}}{\partial t} + (\vec{U} \cdot \grad)\vec{U} =\vec{J} \times \vec{B} - \div \underline{\underline{P}} .\end{equation}
+The interspecies momentum exchange terms cancel, and thus do not appear in this equation.
 
 An equation for the current density is obtained by multiplying the ion and electron equations of motion by the relevant charge over mass $q_s/m_s$, and summing the two. The algebra for this is complicated, and to reach the final equation some of the key assumptions of ideal MHD are required:
 \begin{itemize}
@@ -124,13 +126,13 @@ An equation for the current density is obtained by multiplying the ion and elect
 \end{itemize}
 Applying these assumptions and completing the algebra allows the \textit{Generalised Ohm's law} to be derived \cite{Piel2017, Chen2015}, 
 \begin{equation} \vec{E} = -\vec{U}\times\vec{B} + \frac{\vec{J} \times \vec{B}}{n_e} - \frac{\div \underline{\underline{P}}^e}{n_e} + \eta \cdot \vec{J}. \end{equation}
-This equation is further simplified in ideal MHD by assuming the pressure and $\vec{J} \times \vec{B}$ terms are negligible \cite{Chen2015}, and assuming no collisions (which leads to the disappearance of the $\eta \cdot \vec{J}$ term, where $\eta$ is the resistivity). This leads to a simplified form of 
+This equation is further simplified in ideal MHD by assuming the pressure and $\vec{J} \times \vec{B}$ terms are negligible \cite{Chen2015}, and assuming no collisions (which leads to the disappearance of the $\eta \cdot \vec{J}$ term, where $\eta$ is the resistivity tensor, which includes the interspecies collision terms). This leads to a simplified form of 
 \begin{equation} \vec{E} = -\vec{U}\times\vec{B} . \end{equation}
 
 The ideal MHD equations are then closed using Maxwell's equations (in particular, forms of Ampere's and Faraday's laws reduced by the MHD approximations) and the equation of state. The complete set of ideal single-fluid MHD equations consists of:
 
 \begin{equation} \frac{\partial \rho}{\partial t} + \div (\rho \vec{U}) = 0. \end{equation}
-\begin{equation} \frac{\rho \vec{U}}{\partial t} + (\vec{U} \cdot \grad)\vec{U} =\vec{J} \times \vec{B} - \div \underline{\underline{P}} .\end{equation}
+\begin{equation} \frac{\partial \rho \vec{U}}{\partial t} + (\vec{U} \cdot \grad)\vec{U} =\vec{J} \times \vec{B} - \div \underline{\underline{P}} .\end{equation}
 \begin{equation} \vec{E} = -\vec{U}\times\vec{B} . \end{equation}
 \begin{equation} \grad \times \vec{B} = \mu_0 \vec{J} \end{equation}
 \begin{equation} \grad \times \vec{E} = - \frac{\partial \vec{B}}{\partial t} \end{equation}
