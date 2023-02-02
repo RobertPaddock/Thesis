@@ -7,7 +7,7 @@
  % \qauthor{--- Johann Wolfgang von Goethe \cite{von_goethe_wilhelm_1829}}
 %\end{savequote}
 
-\chapter{\label{ch-theory}Theory}
+\chapter{Theory} \label{ch-theory}
 
 \minitoc
 
@@ -25,8 +25,8 @@ where $T_e$ is the electron temperature, $n$ is the number density of ions/elect
 \begin{equation} N_D = n \cdot \frac{4}{3} \pi \lambda_D^3 \gg 1, \end{equation}
 where $N_D$ is the number of particles in a `Debye sphere', i.e. the number of electrons that would be in the Debye length of a charge, and thus available to shield it. Clearly for the charge to be effectively shielded and thus quasi-neutrality to be established, this number should be much larger than one.
 
-\subsection{Plasma oscillations}
-If the electrons in the plasma are displaced slightly from the ions\footnote{Given the mismatch between the ion and electron mass in a typical plasma, when considering short time scales the ions are often considered to be stationary compared to the highly mobile electrons}, there will be a restoring force generated. This will accelerate the electrons towards the ions, which they will then overshoot; this leads to oscillations of the electrons around the ions. Such oscillations can be derived using the continuity equation and equation of motion for the electrons\footnote{These are derived from kinetic theory in \hl{Section}, or can be derived by considering fluid motion as in \cite{Chen2015} and \cite{Piel2017}.} and Poisson's equation,
+\subsection{Plasma oscillations} \label{PlasmaOscillations}
+If the electrons in the plasma are displaced slightly from the ions\footnote{Given the mismatch between the ion and electron mass in a typical plasma, when considering short time scales the ions are often considered to be stationary compared to the highly mobile electrons}, there will be a restoring force generated. This will accelerate the electrons towards the ions, which they will then overshoot; this leads to oscillations of the electrons around the ions. Such oscillations can be derived using the continuity equation and equation of motion for the electrons\footnote{These are derived from kinetic theory in Section \ref{FluidDerivation}, or can be derived by considering fluid motion as in \cite{Chen2015} and \cite{Piel2017}.} and Poisson's equation,
 \begin{equation} m n_e [\frac{\partial\vec{v_e}}{\partial t} + (\vec{v_e} \cdot \grad)\vec{v_e}] = -e n_e \vec{E} \end{equation}
 \begin{equation} \frac{\partial n_e}{\partial t} + \grad \cdot (n_e \vec{v_e}) = 0 \label{eqn: ElectronEoM} \end{equation}
 \begin{equation} \epsilon_0 \grad \cdot \vec{E} = e(n_i - n_e). \end{equation}
@@ -57,7 +57,7 @@ The number of particles at a position $\vec{r}$ and with velocities in the infin
 \begin{equation} n(\vec{r}, t) = \int^{\infty}_{-\infty} f(\vec{r}, \vec{v}, t) d\vec{v}  = \int^{\infty}_{-\infty} \int^{\infty}_{-\infty} \int^{\infty}_{-\infty} f(\vec{r}, \vec{v}, t) dv_x dv_y dv_z. \end{equation}
 
 
-\subsection{The Boltzmann and Vlasov equations}
+\subsection{The Boltzmann and Vlasov equations} \label{BoltzmannSection}
 
 The evolution of the distribution function with time will now be considered. The `rate of change' of a plasma can be described from two perspectives; either through measuring the change in the plasma at a fixed point, or through measuring the change experienced by a `fluid element'. This is expressed through the \textit{convective derivative}, 
 \begin{equation} \left(\frac{d}{dt}\right) = \left(\frac{\partial}{\partial t} + \vec{v} \cdot \grad\right). \end{equation}
@@ -76,7 +76,7 @@ Collisions can be added to both Boltzmann and Vlasov equations, through the addi
 
 The Vlasov equation describes the full kinetic evolution of the plasma, and can be solved in Vlasov codes to return the distribution function. This is extremely useful for simulating kinetic effects, but is computationally expensive. It is not feasible to perform such simulations over the length and time scales required for a full ICF implosion. To simulate such implosions, it is necessary to make approximations to reduce the computational cost.
 
-\subsection{The fluid equations}
+\subsection{The fluid equations} \label{FluidDerivation}
 
 %The fluid approximation makes the assumption that the velocity distribution of the plasma is assumed to be Maxwellian at all positions, and thus $\hat{f}$ can be described 
 %\begin{equation} \hat{f} = (m / 2\pi KT)^{3/2} \exp{-v^2/v_{th}^2}, \end{equation} where $v = \sqrt{v_x^2 + v_y^2 + v_z^2}$ and $v_{th} = \sqrt{2KT/m}$.
@@ -140,7 +140,7 @@ The ideal MHD equations are then closed using Maxwell's equations (in particular
 
 Such equations can be solved as in a simulation code to describe the fluid behaviour of a plasma. More accurate variations of this formalism include additional terms in the equations (accounting for collisions and resistivity), or include the energy equation as well (which requires a further heat transport equation for closure). 
 
-As the full plasma distribution function does not need to be evaluated fluid codes (which utilise this fluid approximation) can perform simulations over the time and length scales required for a full ICF implosion, making them an essential tool for investigating these reactions. However, it is also important to note their limitations. In particular, the assumptions that the time and length scales of interest are long means that fast phenomena (on the timescale of the plasma frequency) cannot be simulated - including the plasma oscillations discussed in \hl{SECTION}. For this reason, effective plasma physics simulations require careful planning to ensure the necessary physics is captured for the scenario being simulated.
+As the full plasma distribution function does not need to be evaluated fluid codes (which utilise this fluid approximation) can perform simulations over the time and length scales required for a full ICF implosion, making them an essential tool for investigating these reactions. However, it is also important to note their limitations. In particular, the assumptions that the time and length scales of interest are long means that fast phenomena (on the timescale of the plasma frequency) cannot be simulated - including the plasma oscillations discussed in Section \ref{PlasmaOscillations}. For this reason, effective plasma physics simulations require careful planning to ensure the necessary physics is captured for the scenario being simulated.
 
 
 
@@ -148,10 +148,10 @@ As the full plasma distribution function does not need to be evaluated fluid cod
 
 The previous section demonstrated how the fluid equations themselves are not complete, and require further models (the equation of state, or the heat transport equation) in order to be solved. In reality, simulation codes based on this approach typically involve further models, which are used to improve accuracy and are included by adding additional terms to the MHD equations. 
 
-This section will give provide a brief overview of some of the other key physics that is important in describing plasmas (such as laser absorption and ionisation) and how these are included in fluid simulations, as well as outlining some of the additional physics models that are added (such as heat and radiation transport, and the equation of state). As this thesis will  present a large number of hydrodynamic simulations using the 1D radiation-hydrodynamics code HYADES, the specific models that are used in this code will be indicated where relevant. This section is intended to provide a brief overview of this physics, and a more complete description can be found in  \cite{Colvin2013} (on which this section is based).
+This section will give provide a brief overview of some of the other key physics that is important in describing plasmas (such as laser absorption and ionisation) and how these are included in fluid simulations, as well as outlining some of the additional physics models that are added (such as heat and radiation transport, and the equation of state). As this thesis will  present a large number of hydrodynamic simulations using the 1D radiation-hydrodynamics code HYADES, the specific models that are used in this code will be indicated where relevant. This section is intended to provide a brief overview of this physics, and a more complete description can be found in \cite{Colvin2013} (on which this section is based).
 
 \subsubsection{Discretisation of the plasma}
-In \hl{Section}, it was described how the Eulerian forms of plasma equations track changes at a fixed point in space, while Lagrangian forms follow a fluid `packet' and track how it changes as it moves. This distinction is particularly evident in simulation codes, where the choice of Eulerian/Lagrangian influences the discretisation of the plasma.
+In Section \ref{BoltzmannSection}, it was described how the Eulerian forms of plasma equations track changes at a fixed point in space, while Lagrangian forms follow a fluid `packet' and track how it changes as it moves. This distinction is particularly evident in simulation codes, where the choice of Eulerian/Lagrangian influences the discretisation of the plasma.
 
 In Eulerian codes (which solve the Eulerian form of the fluid equations), the fluid is described by a fixed mesh, where the fluid variables are described with a single value in each zone between mesh points. Following the Eulerian perspective of tracking changes at a fixed point in space, the mesh points are fixed throughout the simulation and the fluid is free to flow between zones. The Lagrangian form of the equations, however, describes how fixed `packets' of fluid evolve with time. As such, the mesh points are not fixed in time but rather move with the plasma, and each zone describes a fixed and unchanging `packet' of fluid. In Lagrangian codes the mass of each zone is therefore constant as a function of time (and the mesh boundaries move to maintain this), while in Eulerian codes the mesh is fixed and the mass per zone changes as the fluid moves within it.
 
@@ -229,7 +229,7 @@ In fast ignition \cite{Tabak1994}, the driver is used to compress the fuel to hi
 Another scheme that has generated significant interest is shock ignition \cite{Betti2007}. Here, lower laser powers are again used to compress the fuel at lower velocities, reducing hydrodynamic instability growth - but unlike fast ignition, the compression results in an isobaric fuel assembly as in central hotspot ignition. A high intensity laser pulse is then applied late in the implosion to drive an extremely strong final shock through the fuel, which generates high temperatures and is responsible for forming the hotspot. The main concern for shock ignition is that the high intensity of the late laser pulse can results in significant parametric instabilities, which could lead to hot electron generation and preheating of the fuel. An alternative scheme - shock augmented ignition - has recently been proposed to mitigate this, where a dip in the laser power is used before the final shock \cite{Scott2022}. This dip means that the laser intensity can then be increased to more moderate levels while still generating the strong shock (it is the increase in intensity that is important, rather than the absolute value), and thus the high levels of parametric instability can be avoided.
 
 \subsection{Polar direct drive}
-High energy direct-drive experiments are currently limited by a lack of experimental facilities. Direct-drive experiments are currently limited to Omega at the University of Rochester Laboratory for Laser Energetics; this facility has 60 beams focussed on the target, but has a maximum energy of \hl{figure}. Laser MegaJoule (LMJ) will also have a direct-drive capability, but is still being developed. While there were originally plans to convert the NIF to a direct-drive configuration, the failure of the NIC to achieve ignition means that these were never implemented.
+High energy direct-drive experiments are currently limited by a lack of experimental facilities. Direct-drive experiments are currently limited to Omega at the University of Rochester Laboratory for Laser Energetics; this facility has 60 beams focussed on the target, but has a maximum energy of \hl{value}. Laser MegaJoule (LMJ) will also have a direct-drive capability, but is still being developed. While there were originally plans to convert the NIF to a direct-drive configuration, the failure of the NIC to achieve ignition means that these were never implemented.
 
 To work-around these restrictions, a technique known as polar direct-drive (PDD) is used \cite{Skupsky2004}. PDD sees shots performed in direct-drive, but with the beams all located at the two poles (as in indirect-drive) rather than distributed around the full capsule \cite{Craxton2005}. The beam pointing is then used to attempt to provide spherical irradiation, with the power of the beams adjusted to try to provide drive uniformity. This approach allows direct-drive shots to be performed on the NIF. However, this approach has obvious issues with drive uniformity (capsule designs have been proposed to mitigate this, such as `saturn' capsules \cite{Craxton2005}), and is particularly susceptible to cross-beam energy transfer \cite{Collins2018}. The NIF was previously limited to performing PDD shots at room temperature \cite{Hohenberger2015}, but this has recently been addresses and cryogenic PDD shots are now in preparation.
 
@@ -249,7 +249,7 @@ RT instability growth is `seeded' by small initial perturbations, which can aris
 Other hydrodynamic instabilities also affect ICF capsules, albeit to a lesser extent \cite{Atzeni2008}. The Richtmeyer-Meshkov instability occurs when a shock wave crosses between two materials and the interface is not-perfectly flat; the velocity of the surface is thus non-uniform, and the perturbations grow. These perturbations can then in-turn seed RT instability growth. Another example is the Kelvin-Helmholtz instability, which occurs when there is shear flow between two different fluids. This can occur as RT `spikes' develop, and can thus play a role in the development of the later stages of this growth.
 
 \subsection{Parametric instabilities} \label{Parametric instabilities}
-Parametric instabilities instead arise from laser-plasma interactions. When high-intensity light passes through the ablated/coronal plasma, plasma modes (such as those described in \hl{Section} can be excited. This can result in reduced absorption of laser light, less symmetry in the drive (which can thus lead to less uniform compression, and seed hydrodynamic instabilities), and preheating of the fuel (again reducing performance). The incoming EM wave can excite a number of modes (including scattered EM waves), according to the wave vector and frequency matching conditions:
+Parametric instabilities instead arise from laser-plasma interactions. When high-intensity light passes through the ablated/coronal plasma, plasma modes (such as those described in Section \ref{PlasmaOscillations} can be excited. This can result in reduced absorption of laser light, less symmetry in the drive (which can thus lead to less uniform compression, and seed hydrodynamic instabilities), and preheating of the fuel (again reducing performance). The incoming EM wave can excite a number of modes (including scattered EM waves), according to the wave vector and frequency matching conditions:
 \begin{equation} k_0 = k_2 \pm k_1, \end{equation}
 \begin{equation} \omega_0 = \omega_2 \pm \omega_1. \label{eqn: freq matching} \end{equation}
 $k$ is the wave vector and $\omega$ is the angular frequency, while the subscript 0 represents the initial wave and 1 and 2 represent the excited modes \cite{Chen2016}. The discussion in this section follows that in \cite{Chen2016} and \cite{Craxton2015}.
@@ -271,7 +271,7 @@ Parametric instabilities are generated when high intensities of EM radiation pas
 
 \subsection{Shock physics}
 
-Shocks, referring to a sudden change in plasma properties over a thin transition region, are ubiquitous in plasmas and inertial confinement fusion. In an ICF implosion, shocks are generated when there is a change in the applied pressure (such as an increase in the laser intensity), and are used to accelerate the shell inwards. Generating and measuring the plasma state produced by a shock wave was also the key feature of the experiment described in \hl{SECTION}. As such, this section will provide a brief overview of the key principles of shock physics, based on the explanation in \cite{Zeldovich1966}.
+Shocks, referring to a sudden change in plasma properties over a thin transition region, are ubiquitous in plasmas and inertial confinement fusion. In an ICF implosion, shocks are generated when there is a change in the applied pressure (such as an increase in the laser intensity), and are used to accelerate the shell inwards. Generating and measuring the plasma state produced by a shock wave was also the key feature of the experiment described in Chapters \ref{ch-experiment} and \ref{ch-experimentAnalysis}. As such, this section will provide a brief overview of the key principles of shock physics, based on the explanation in \cite{Zeldovich1966}.
 
 \begin{figure}
 \centering
@@ -305,7 +305,7 @@ Alternatively, the same equations can be considered in a moving frame, where the
 \begin{equation} \rho_1 u_1 = \rho_0 u_0, \label{eqn: RH1 moving} \end{equation}
 \begin{equation} P_1 + \rho_1 u_1^2 = P_0 + \rho_0 u_0^2, \label{eqn: RH2 moving} \end{equation}
 \begin{equation} \epsilon_1 + \frac{P_1}{\rho_1} + \frac{u_1^2}{2} = \epsilon_0 + \frac{P_0}{\rho_0} + \frac{u_0^2}{2}. \label{eqn: RH3 moving} \end{equation}
-These three relations can also be derived by integrating over the differential equations describing the conservation equations given in \hl{SECTION}.
+These three relations can also be derived by integrating over the differential equations describing the conservation equations given in Section \ref{FluidDerivation} \hl{Check this!}).
 
 These equations can be further manipulated to derive some other useful expressions. Equations \ref{eqn: RH1 moving} and \ref{eqn: RH2 moving} can be used to find new expressions for the velocities $u_1$ and $u_0$, 
 \begin{equation} u_1^2 = \nu_1^2 \frac{P_1 - P_0}{\nu_0 - \nu_1}, \label{eqn: RH moving u1} \end{equation}

@@ -75,6 +75,18 @@ This provides a series of surrogate capsules, which could be used in room temper
 
 \section{Mixed foam EOS studies}
 
+[\textit{To be included once complete...}]
+
+%The HYADES simulations used in this thesis are intended to describe wetted-foam targets, but in reality this layer is described using the pure-DT equation of state. This approximation does not account for the presence of the foam material, and this was highlighted as a limitation of this work in the previous chapter. There is no wetted-foam equation of state currently available. Other work has used a mixed equation of state, where a combined equation of state is produced including both DT and CH plastic \cite{Olson2021}. This is reported to be less compressible than pure-DT.
+
+%This work was done using the alternative radiation-hydrodynamics code HELIOS. HELIOS is compatible with an additional program, PropacEOS, which allows the equation of state of materials of different composition to be produced, which can then be incorporated into HELIOS for use in radiation-hydrodynamics simulations. Attempts to use the PropacEOS table in HYADES did not return physical results.
+
+%First, one of the previous best-performing HYADES simulations was simulated in HELIOS, using the pure-DT equation of state modelled in PropacEOS. Helios does not include alpha-heating, and thus large scale capsules would show significant discrepancy between the two codes; as such, a small capsule was chosen where the effects of alpha-heating were expected to be small. The Helios simulation showed some differences in performance, with a higher yield, higher temperature and lower areal density. Despite this the hydrodynamic performance (convergence ratio, implosion velocity, and in-flight aspect ratio) were reasonably similar \footnote{Such differences are to be expected between different simulation codes.}. This provided a baseline pure-DT implosion in HELIOS for comparison with the new mixed simulation.
+
+%Another HELIOS simulation with the mixed equation of state shows the impact of the foam. The mixed equation of state is seen to be less compressible than the pure-DT EOS, and results in a thicker shell with lower areal density. The temperature is largely similar (though is slightly lower for the mixed EOS as well). This results in a gain that is about 70\% of that seen in the pure-DT simulations. The effect of this would likely be more significant for larger capsules due to the nature of alpha-heating, but this could not be simulated in HELIOS due to the lack of this effect. These results broadly agree with those presented by \textit{Olson et al.}, who also observed a less-compressible shell in the mixed case and observed qualitatively similar behaviour to that shown here \cite{Olson2020a}.
+
+%This topic requires further investigation. Ideally, a publicly available mixed EOS that can be used in a variety of simulation codes should be produced. If a mixed EOS that was found to be compatible with HYADES could be obtained, then an optimisation campaign could again be conducted to find the optimal performance using this EOS (since this may be different than the optimal for the pure-DT EOS). Ultimately, work on the wetted-foam EOS also requires experiments to measure the true compression behaviour of this material.
+
 
 
 

@@ -5,9 +5,10 @@
 % \qauthor{--- Cicero's \textit{de Finibus Bonorum et Malorum}}
 %\end{savequote}
 
-\chapter{\label{ch:intro}Introduction} 
+\chapter{Introduction} 
 
 \minitoc
+
 
 \section{Introduction}
 Nuclear fusion is the process through which small nuclei (typically isotopes of Hydrogen) fuse together to form larger nuclei, with an associated release of energy. From small acorns mighty forests grow, and this simple process is the energy source that powers the stars, formed all the elements in the universe, and will hopefully one day produce electricity for the National Grid. Yet despite decades of research on this topic, the goal of a fusion reactor remains out of reach.
@@ -41,18 +42,19 @@ This thesis covers a range of work of relevance to wetted-foam capsules and thei
 %\end{itemize}
 
 \begin{itemize}
-	\item \hl{Chapter} will describe some of the key theory used in the later chapters (covering basic plasma physics, mathematical descriptions of plasmas and their implementation in simulation codes, an overview of ICF implosions and instability growth, and a description of shock physics).
-	\item \hl{Chapter} will discuss the role of low convergence ratio in minimising instability growth, and a simulation campaign in an expected low-instability regime investigating the possible performance of wetted foam capsules.
-	\item \hl{Chapter} will present further simulations extending the results of the previous chapters. This will include the impact of the equation of state model used, designs for surrogate targets to enable room temperature experiments based on these designs, and then further simulation campaigns investigating the performance that can be obtained when alternative laser drivers or auxilliary heating techniques are applied within this regime.
-	\item The next two chapters will then focus on experimental work investigating the equation of state of a TMPTA plastic foam relevant to these previous designs. \hl{Chapter} will focus on the principles of the experiment, and the preparation work performed beforehand, while \hl{Chapter} will focus on the data analysis and interpretation of the results.
-	\item \hl{Chapter} will then summarise and conclude the thesis. There are also three appendices, which will focus on the operation of key code for this work, some bench-marking of the simulations, and further details of the experimental setup.
+	\item Chapter \ref{ch-theory} will describe some of the key theory used in the later chapters (covering basic plasma physics, mathematical descriptions of plasmas and their implementation in simulation codes, an overview of ICF implosions and instability growth, and a description of shock physics).
+	\item Chapter \ref{ch:definitions} will define and discuss some of the key terms and implosion parameters used throughout this thesis, and implemented in the code used to analyse the simulations.
+	\item Chapter \ref{ch-lowCR} will discuss the role of low convergence ratio in minimising instability growth, and a simulation campaign in an expected low-instability regime investigating the possible performance of wetted foam capsules.
+	\item Chapter \ref{ch-FurtherSims} will present further simulations extending the results of the previous chapters. This will include the impact of the equation of state model used, designs for surrogate targets to enable room temperature experiments based on these designs, and then further simulation campaigns investigating the performance that can be obtained when alternative laser drivers or auxiliary heating techniques are applied within this regime.
+	\item The next two chapters will then focus on experimental work investigating the equation of state of a TMPTA plastic foam relevant to these previous designs. Chapter \ref{ch-experiment} will focus on the principles of the experiment, and the preparation work performed beforehand, while Chapter \ref{ch-experimentAnalysis} will focus on the data analysis and interpretation of the results.
+	\item Chapter \ref{ch:Conclusion} will then summarise and conclude the thesis. There are also three appendices, which will focus on the operation of key code for this work, some bench-marking of the simulations, and further details of the experimental setup.
 \end{itemize}
 
 \section{Author's contributions}
 
 The work in this thesis is largely my own, but there are places where I have included the work of collaborators, or the results of students who I supervised. I have indicated this wherever it has occurred, but also provide a brief summary here of these contributions.
 
-In \hl{Chapter}, I relied upon the guidance and assistance of Dr Robbie Scott for assistance with running Hyades - particularly on how to structure the input decks, and on the correct choices of physics models to use (such as radiation groups, ionisation models, flux limiters etc.). He also provided advice for all the Hyades/h2D simulations in this thesis. The benchmarking of Hyades that I performed in \hl{Section} was performed using data provided by Dr Alex Zylstra from LLNL and Dr Brian Haines from LANL, who also provided advice during this process.
+In Chapter \ref{ch-lowCR}, I relied upon the guidance and assistance of Dr Robbie Scott for assistance with running HYADES - particularly on how to structure the input decks, and on the correct choices of physics models to use (such as radiation groups, ionisation models, flux limiters etc.). He also provided advice for all the Hyades/h2D simulations in this thesis. The benchmarking of Hyades that I performed in Appendix \ref{app:benchmark} was performed using data provided by Dr Alex Zylstra from LLNL and Dr Brian Haines from LANL, who also provided advice during this process.
 
 I also supervised a number of summer and master's students, who under my instruction used my code to extend my results to a wider range of implosions. After I had performed optimisation of the third-harmonic implosions, Heath Martin and Rusko Ruskov repeated the optimisation to explore ArF and two-colour capsules, using code that I had adapted for this purpose. Tat Li and Eugene Kim later applied auxiliary heating to a selection of these ArF and two-colour implosions (following work I had personally done to apply such heating to the third-harmonic implosions). Tat Li also optimised two capsules to produce maximal areal density rather than yield (again, using code I had produced for this purpose). Their contributions meant that we could explore a much larger range of implosions than would otherwise have been possible! I also reference more recent work performed by Jordan Lee, Heath Martin and Rusko Ruskov to explore the auxilliary heating concept in more detail - this was not my work, and was just included for improved understanding and completeness.
 
