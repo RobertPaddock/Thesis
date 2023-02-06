@@ -11,7 +11,7 @@
 
 \section{Introduction}
 
-Many of the key terms used in ICF have no single agreed upon definition. This was particularly evident after the NIF shot N2100808, where attempting to identify if the capsule had ignited required comparison to nine different `ignition' criteria \cite{Abu-Shawareb2022}. This can be a challenge when comparing between results in the literature. When producing the analysis code for the simulations in the following chapters, it became necessary to select a fixed definition for many of these variables. This chapter discussed the range of definitions used for a variety of key terms and parameters, along with the implementation used in this thesis.
+Many of the key terms used commonly in ICF have no single agreed upon definition. This can make it difficult to compare results between different published works, and can mean the use of such terms is ambiguous. This ambiguity was particularly evident after the NIF shot N2100808, where attempting to identify if the capsule had ignited required comparison to nine different `ignition' criteria \cite{Abu-Shawareb2022}. This chapter will discuss the definitions for a range of terms and quantities that will be used throughout this thesis, along with the details of exactly how these quantities were evaluated for the simulations in this work.
 
 
 \section{Convergence ratio}
@@ -36,20 +36,30 @@ The term `hotspot' is used to refer to the low-density, high temperature region 
 
 As such, a new definition for hotspot/shell was identified for this work. The hotspot/shell interface (or `hotspot radius') is defined as the radius at which the density has increased by $1/e^2$ of the difference between the central hotspot density and the peak density in the shell. The shell outer radius is defined as the radius where the density has decreased to $1/e^2$ of the peak value. In the above diagram this places the two boundaries at the dashed lines, which matches well with the qualitative description. As this definition is based on density, it works throughout the early stages of the implosion - defining a 'shell' which could be used for the calculation of other quantities. 
 
+\section{Hotspot / shell temperature}
+The hotspot and shell temperatures referred to in this thesis are the mass-averaged ion temperatures over the hotspot and shell zones respectively. This (along with the definition for convergence ratio) is a clear example of how defining the hotspot and shell influences other important parameters.
+
+\section{Areal density}
+
+Despite areal density typically being referred to as $\rho R$, which suggests that it is the product of the density and the radius at a given position, the more accepted and commonly used version \cite{Craxton2005, Betti2005, Abu-Shawareb2022} of this quantity is \begin{equation} \rho R = \int_{R_1}^{R_2} \rho \cdot dR, \end{equation} the integral of the density $\rho$ with respect to radius $R$ over the region being considered\footnote{my first paper on this work defined $\rho R$ simply as the mass averaged product of these two quantities, which was replaced with the integral form for subsequent papers.}. Definitions for areal density are often not provided, and some works do indeed discuss $\rho R$ as the product of these two quantities \cite{Atzeni2008}.
+
+In this thesis, $\rho R$ is used to refer to the integral version of this quantity. The major benefit of this definition is that the areal density of different regions sums linearly. This means that the total capsule areal density is the sum of the hotspot areal density and the shell areal density, which makes intuitive sense. Areal density can thus be thought of as a measure of how much DT fuel an alpha particle must move through, when generated at the centre of the capsule and travelling (in a straight line) outwards - which highlights why this quantity is important for alpha absorption, self-heating, and thus gain. It also correlates well to the experimentally determined `neutron averaged' areal density, which is an average of the areal density across the neutron line of travel between the point of generation and the detector.
+
+
 \section{In-flight aspect ratio}
 
 The definition for the in-flight aspect ratio of the capsule used in this work is \begin{equation} \mathrm{IFAR} = \frac{R_\mathrm{shell}}{t_\mathrm{shell}}, \end{equation}
 where $R_\mathrm{shell}$ and $t_\mathrm{shell}$ are the shell radius and thickness. This quantity is evaluated when the capsule has been compressed to two-thirds of it's initial radius, in accordance with the common definition provided in the review article by Craxton \textit{et al.} \cite{Craxton2015} (other works evaluate the IFAR at different times, such as when the shell has converged by a factor of one third \cite{Radha2011}). In the analysis performed in these simulations, the IFAR is evaluated at the point when the shell outer radius (as defined previously) reaches 2/3 of the initial inner radius of the wetted-foam layer. The shell thickness is defined as the shell radius minus the hotspot radius. It should be noted that some works will define the shell radius as the position of peak shell density - the definition for $R_\mathrm{shell}$ used in this thesis is therefore larger, and will result in a slightly larger IFAR value than using this alternative definition.
 
-\section{Laser intensity}
-
-The quoted threshold for parametric instability growth depends on intensity. However, as the shell is compressed the surface area of the critical density surface will decrease; for a laser focused at the center of the capsule, the intensity would therefore increase as the implosion occurs.
-
-When evaluating the intensity, the initial radius of the capsule was used. This was done for convenience (it is known in advance what initial radius the capsule will have, and thus what the maximum permissible power would be), but it is also not expected that the intensity will increase dramatically over the course of the implosion (while the radius decreases, the laser will be travelling through the ablated material where some fraction of the energy will be lost).
-
 \section{Implosion velocity}
 
-The `implosion velocity' is typically used to refer to the peak velocity achieved as the capsule implodes. The implosion velocity used in this work was a volume averaged velocity across the material used in the shell. This should more correctly be a mass averaged implosion velocity, but the difference is marginal. 
+The term `implosion velocity' is typically used to refer to the peak velocity achieved as the capsule implodes. The implosion velocity used in this work was a volume averaged velocity across the material used in the shell. This should more correctly be a mass-averaged implosion velocity, but the difference in these quantities is marginal. 
+
+\section{Laser intensity}
+
+The laser intensity will form an important part in the definition in Chapter \ref{ch-lowCR} for the low-instability regime. However, as the shell is compressed the surface area of the critical density surface will decrease, and thus the laser intensity is a function of time, and of the radius of the capsule. 
+
+In this thesis, when evaluating intensity the initial radius of the capsule was always used instead, thus removing this time dependence. This was done for convenience; since the initial radius of the capsule is known in advance, the laser power can thus be chosen in order to ensure an appropriate intensity (when using this definition). However, it is also reasonable to assume that the time-dependent intensity at the critical density will not increase much beyond this value, as while the radius decreases the coronal plasma would be expected to decrease the laser energy through absorption and scattering processes.
 
 \section{Yield, gain and bang time}
 
@@ -59,15 +69,6 @@ The term `gain' is used throughout this thesis to refer to the `total' or `targe
 
 The bang time of the implosion is defined as the time of maximum neutron generation (i.e. where the peak number of fusion reactions occur) \cite{Craxton2015}.
 
-\section{Areal density}
-
-Despite areal density typically being referred to as $\rho R$, which suggests that it is the product of the density and the radius at a given position, the more accepted and commonly used version \cite{Craxton2005, Betti2005, Abu-Shawareb2022} of this quantity is \begin{equation} \rho R = \int_{R_1}^{R_2} \rho \cdot dR, \end{equation} the integral of the density $\rho$ with respect to radius $R$ over the region being considered\footnote{my first paper on this work defined $\rho R$ simply as the mass averaged product of these two quantities, which was replaced with the integral form for subsequent papers.}. Definitions for areal density are often not provided, and some works do indeed discuss $\rho R$ as the product of these two quantities \cite{Atzeni2008}.
-
-In this thesis, $\rho R$ is used to refer to the integral version of this quantity. The major benefit of this version is that the areal density of different regions sums linearly. This means that the total capsule areal density is the sum of the hotspot areal density and the shell areal density, which makes intuitive sense. Areal density can thus be thought of as a measure of how much DT fuel an alpha particle must move through, when generated at the centre of the capsule and travelling (in a straight line) outwards - which highlights why this quantity is important for alpha absorption, self-heating, and thus gain. It also correlates well to the experimentally determined `neutron averaged' areal density, which is an average of the areal density across the neutron line of travel between the point of generation and the detector.
-
-\section{Hotspot / shell temperature}
-The hotspot and shell temperature referred to in this thesis is the mass-averaged ion temperature over the hotspot and shell zones respectively. The use of such terms is another example of the importance of the hotspot/shell definition.
-
 \section{Adiabat}
 
 The adiabat (or isentrope parameter) of an ICF capsule is used as a measure of the entropy of the cold, highly compressed DT fuel. This is done through comparison with a cold gas with Fermi-degenerate electrons. It is defined as \begin{equation} \alpha = \frac{P(\rho, T)}{P_{deg}(\rho)}, \label{eqn:adiabat} \end{equation} where $P(\rho, T)$ is the pressure of the DT fuel for which the adiabat is calculated, while $P_{deg}(\rho)$ is the pressure for the Fermi-degenerate DT at the equivalent density. This can be calculated using \begin{equation} P_{deg}(\rho) = A_{deg} \rho^{5/3}, \end{equation} where $\rho$ is the density in \unit{\gram\per\centi\meter\cubed}, and $A_{deg} = $ \num{2.17e12} \unit{(\mathrm{erg}/\mathrm{g})/(\mathrm{g}/\mathrm{cm}^3)^{2/3}} for equimolar DT \cite{Atzeni2008}. 
@@ -76,13 +77,13 @@ There are multiple ways such a definition can be evaluated, and this is discusse
 
 An alternative way of calculating adiabat is also provided in \cite{Haan2011}. Here, they instead calculate a mass-averaged entropy at the peak implosion velocity. The equation of state for the DT is then used to calculate the pressure for DT at 1000 \unit{\gram\per\centi\meter\cubed}, on the isentrope defined by that particular entropy value. This calculated pressure is referred to as $P_{cold}$, and replaces the Fermi-degenerate pressure ${P_{deg}(\rho)}$ in the previous equation for adiabat. This is because the cold DT fuel at typical densities achieved in the shell at peak implosion velocity may not be fully ionised, and thus $P_{cold}$ may be lower than ${P_{deg}(\rho)}$. The pressure definition of adiabat does not well account for the density dependence of the DT entropy, and can give behaviour that is non-monotonic in entropy \cite{HainesPersonalComm}. Another alternative definition is to again calculate the mass-averaged entropy of the DT fuel, and then use this value in a fitting formula to calculate the adiabat directly \cite{Haan2011, Haines2022}.
 
-Adiabat does not play a significant role in this thesis, and adiabat values are not reported. In part, this was due to difficulties in this calculation; the adiabat value calculated from Equation \ref{eqn:adiabat} was found to be depenedent upon the selection of zones used. HYADES does not return the entropy of the fuel, which mean that the alternative definitions could not be used.
+Adiabat does not play a significant role in this thesis, and adiabat values are not reported. In part, this was due to difficulties in this calculation; the adiabat value calculated from Equation \ref{eqn:adiabat} was found to be dependent upon the selection of zones used. HYADES does not return the entropy of the fuel, which means that the alternative definitions could not be used.
 
 %In this work, the reported adiabat is the mass-averaged adiabat of DT in the capsule shell. The minimum adiabat is also calculated, which is the minimum adiabat across the DT zones in the shell. Both of these quantities are calculated as a function of time, and increase as the implosion progresses.
 
 \section{Ignition and break-even}
-Of all the ICF parameters, `ignition' is probably the most ambiguous. The National Research Council in 1977 defined ignition as the point at which the fusion energy produced exceeded the laser input; this has captured public imagination, but it is not really linked to any meaningful scientific transition within the capsule.
+Of all the ICF parameters, `ignition' is probably the most ambiguous. The National Research Council in 1977 defined ignition as the point at which the fusion energy produced exceeded the laser input; this is easy to understand and describes an important milestone in fusion research, but is not linked to any major physics transition/threshold within the capsule.
 
-There have been a variety of attempts to define ignition in a more rigorous way, but there is no single accepted definition. There are both alternative definitions (for example, it can be defined as the point at which a burn wave starts to propogate through the cold shell \cite{Christopherson2020}), and alternative ways of quantifying this. When the NIF shot N210808 achieved a yield of 1.3 MJ, this ambiguity meant that it had to be evaluated against nine different criteria in order to claim `ignition' had been achieved \cite{Abu-Shawareb2022}. It was able to satisfy these criteria with high confidence despite not achieving the NIC criteria (which was finally satisfied by the N221214 shot).
+There are both alternative definitions (for example, it can be defined as the point at which a burn wave starts to propagate through the cold shell \cite{Christopherson2020}), and multiple ways that such definitions can be quantified. When the NIF shot N210808 achieved a yield of 1.3 MJ, this ambiguity meant that it had to be evaluated against nine different criteria in order to claim `ignition' had been achieved \cite{Abu-Shawareb2022}. It was able to satisfy these criteria with high confidence despite not achieving the NIC criteria (which was finally satisfied by the N221214 shot).
 
-Due to this ambiguity and lack of clarity, the term `ignition' has been avoided where possible in this thesis. Where it is used, it is done so causally without specific meaning, and simply means to achieve a well-performing capsule with high-gain. The term `break-even' is used instead, which has an agreed upon definition of a gain of unity (meaning that it is the same as the NIC ignition criteria, but without the ambiguity).
+Due to this ambiguity and lack of single clear definition, the term `ignition' has been avoided where possible in this thesis. Where it is used, it is done so causally and simply means to achieve a well-performing capsule with high-gain. The term `break-even' is used instead, which has an agreed upon definition of a gain of unity (meaning that it is the same as the NIC ignition criteria, but without the ambiguity).
