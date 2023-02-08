@@ -48,20 +48,20 @@ A variety of attempts were made to estimate the impact that an improved equation
 		\hline
 		EOS & Pure DT & Pure DT & Mixed \\
 		\hline
-		Vapour density (\unit{\milli\gram\per\centi\meter\cubed}) & 1.35 & 1.70 & 1.70 \\
-		Gain & 0.030 & 0.039 & 0.023  \\
-		Convergence Ratio & 15.7 & 16.0 & 19.2 \\ 
-		IFAR & 23.4 & 24.0 & 22.7 \\ 
-		Implosion velocity (km/s) & 391.4 & 390.3 & 387.5 \\
+		%Vapour density (\unit{\milli\gram\per\centi\meter\cubed}) & 1.35 & 1.35 & 1.35 \\
+		Gain & 0.030 & 0.040 & 0.028  \\
+		Convergence Ratio & 15.7 & 16.6 & 25.3 \\ 
+		IFAR & 23.4 & 24.6 & 24.8 \\ 
+		Implosion velocity (km/s) & 391.4 & 393.8 & 391.9 \\
 		\hline
 	\end{tabular}
-	\caption{Simulation outputs for the same 0.25 simulations simulated in HYADES with a pure-DT EOS, and in HELIOS with both pure-DT and mixed-EOS.}
+	\caption{Simulation outputs for the same 0.25 simulations simulated in HYADES with a pure-DT EOS, and in HELIOS with both a pure-DT and a mixed-EOS.}
 	\label{tab:MixedEOS}
 \end{table}
 
-First, the four-pulse 0.25 size design (presented in Table \ref{tab:ThirdHarmonic}) was simulated in HELIOS using the pure-DT PropacEOS equation of state. The simulation input is unchanged from that in HYADES; this was intended to give an equivalent HELIOS simulation which the new mixed-EOS simulation can be compared to, since it would be expected that there would be some changes in performance due to the use of the different codes and models. The hotspot/shell conditions achieved at the bang-time in the two simulations are compared in Figure \ref{fig:MixedEOS}, while the key implosion metrics are provided in Table \ref{tab:MixedEOS}. A small capsule was used where minimal alpha-heating is expected, such that HELIOS would be expected to provide a reasonable estimate of the yield. The HELIOS simulations showed broadly similar performance. It had a noticeably higher yield, with a higher temperature and lower areal density. The vapour density was slightly increased to match the convergence ratio, but once this was done the hydrodynamic performance matched well with that seen in HYADES. Differences are to be expected between the two codes, and the discrepancies seen here were not considered to be overly significant.
+First, the four-pulse 0.25 size design (presented in Table \ref{tab:ThirdHarmonic}) was simulated in HELIOS using the pure-DT PropacEOS equation of state. The simulation input is unchanged from that in HYADES; this was intended to give an equivalent HELIOS simulation which the new mixed-EOS simulation can be compared to, since it would be expected that there would be some changes in performance due to the use of the different codes and models. The hotspot/shell conditions achieved at the bang-time in the two simulations are compared in Figure \ref{fig:MixedEOS}, while the key implosion metrics are provided in Table \ref{tab:MixedEOS}. A small capsule was used where minimal alpha-heating is expected, such that HELIOS would be expected to provide a reasonable estimate of the yield. The HELIOS simulations showed broadly similar performance. It had a noticeably higher yield, with a higher temperature and lower density. The Helios simulation also had a larger convergence ratio, but the hydrodynamic performance otherwise matched well with that seen in HYADES. Differences are to be expected between the two codes (and two EOS models), and this degree of difference was not unexpected.
 
-The simulation was then repeated using the new mixed-EOS table. As expected (given the presence of the foam, and the results discussed in \cite{Olson2021}) the mixed-foam is seen to be less compressible than pure-DT, resulting in a thicker shell with lower areal density. This is also shown in Figure  \ref{fig:MixedEOS}. The temperature displays no noticeable changes from the pure-DT simulation. This shows good qualitative agreement with the results of Olson \textit{et al.} \cite{Olson2020a}, and results in a gain that is about 70\% of that seen in the pure-DT simulations.
+The HELIOS simulation was then repeated using the new mixed-EOS table. As expected (given the presence of the foam, and the results discussed in \cite{Olson2021}) the mixed-EOS was found to be less compressible than pure-DT, resulting in a thicker shell with lower peak density. This is also shown in Figure \ref{fig:MixedEOS}. The temperature displays no noticeable changes from the pure-DT simulation. This shows good qualitative agreement with the results of Olson \textit{et al.} \cite{Olson2020a}, and results in a gain that is about 70\% of that seen in the pure-DT simulations.
 
 The higher convergence ratio in the mixed-foam simulation is not thought to be significant. The definition of hotspot used in this work meant that, since the peak density of the shell was reduced, the hotspot-shell interface moved inwards to a lower radius and thus a higher convergence ratio was calculated. However, the radius of peak density is very similar (and actually occurs at a higher radius for the mixed-EOS simulation), as was the temperature profile of the hotspot. It appears therefore that the physical convergence behaviour is largely unchanged between the two simulations, and the higher reported convergence ratio instead is a result of the particular definition of `hotspot' used in this work.
 
