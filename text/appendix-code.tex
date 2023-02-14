@@ -53,7 +53,7 @@ This can be rearranged to obtain an expression for the number of zones $n$ in te
 \begin{equation}{\label{eqn: SimEqn2} n  =  \log_{\alpha} (1 - \frac{ (1-\alpha) \cdot(R_2 - R_1)}{t_1} )}\end{equation}
 the second simultaneous equation.
 
-The pair of simultaneous Equations \ref{eqn: SimEqn1} and \ref{eqn: SimEqn2} can then be solved numerically to return the number of zones and zone ratio $n$ and $\alpha$ required to describe the region with end positions $R_1$ and $R_2$ and thicknesses $t_1$ and $t_n$.
+The pair of simultaneous Equations \ref{eqn: SimEqn1} and \ref{eqn: SimEqn2} can then be solved numerically to return the number of zones $n$ and thickness ratio $\alpha$ required to describe the region with end positions $R_1$ and $R_2$ and thicknesses $t_1$ and $t_n$.
 
 Masses can then also be calculated for each mesh zone, by calculating the zone size and multiplying by the density of the relevant material. For a planar geometry, the zone size is proportional to the zone thickness. However, for spherical geometries, the volume of zone $i$ is proportional to $4 \pi R_i^2 \cdot t_i$ (since each zone is actually a thin shell of a sphere).
 
@@ -106,7 +106,7 @@ This section describes how the velocity information encoded in the VISAR fringe 
 
 The signal recorded on the VISAR streak camera $S(x,t)$ can be described as 
 \begin{equation} S(x,t) = B(x,t) + A(x,t) \cos[ \phi (x,t) + 2\pi f_0 x + k\epsilon ]. \end{equation}
-This equation is in agreement with the pattern described in Equation \ref{eqn:VISAR eqn}, but with a few minor adaptations. Firstly, a background term $B(x,t)$ and amplitude term $B(x,t)$ have been included (this was neglected in Equation \ref{eqn:VISAR eqn}, which describes the functional form of an ideal signal). In addition, the linear ramp $kx\sin\theta$ has been expressed as $2\pi f_0 x$ where $f_0$ is referred to the carrier frequency (the frequency of the fringes). In this Equation, $\phi(x,t)$ is used to refer to the phase difference containing the data ($kd$ in \ref{eqn:VISAR eqn}, where d is now a function of position and time), and as before, $k\epsilon$ is the constant phase offset introduced by the interferometer. This can be rewritten in exponential form as 
+This equation is in agreement with the pattern described in Equation \ref{eqn:VISAR eqn}, but with a few minor adaptations. Firstly, a background term $B(x,t)$ and amplitude term $A(x,t)$ have been included (this was neglected in Equation \ref{eqn:VISAR eqn}, which describes the functional form of an ideal signal). In addition, the linear ramp $kx\sin\theta$ has been expressed as $2\pi f_0 x$ where $f_0$ is referred to as the carrier frequency (the frequency of the fringes). In this Equation, $\phi(x,t)$ is used to refer to the phase difference containing the data ($kd$ in \ref{eqn:VISAR eqn}, where d is now a function of position and time), and as before, $k\epsilon$ is the constant phase offset introduced by the interferometer. This can be rewritten in exponential form as 
 \begin{equation} S(x,t) = B(x,t) + C(x,t) \exp(i2\pi f_0 x + ik\epsilon) + c.c, \end{equation} where 
 \begin{equation} C(x,t) = \frac{1}{2} A(x,t) \exp(i\phi(x,t)). \end{equation}
 To analyse this, a 1D Fourier transform is performed of the image, giving data of the form
@@ -117,7 +117,7 @@ The data is then shifted by $f_0$ to place this peak at $f=0$, which removes the
 \begin{equation} s(f,t) = c(f,t). \end{equation}
 An inverse Fourier transform is performed, giving 
 \begin{equation} D(x,t) = C(x,t) = \frac{1}{2}A(x,t)\exp(i\phi(x,t)) = \frac{1}{2}A(x,t)[\cos(\phi) + i\sin(\phi)]. \end{equation}
-Looking at the real ($\Re$) and imaginary ($\Im$) parts of $D(x,t)$\footnote{Note that \cite{Celliers2004} has the real part over the imaginary. I believe this is wrong, and Marko's thesis has it this way too.}, it is clear that 
+Looking at the real ($\Re$) and imaginary ($\Im$) parts of $D(x,t)$, it is clear that 
 \begin{equation} \frac{\Im[D]}{\Re[D]} = \tan(\phi), \end{equation}
 and therefore that the phase difference can be obtained from 
 \begin{equation} \phi = \tan^{-1}(\frac{\Im[D]}{\Re[D]}). \end{equation}
