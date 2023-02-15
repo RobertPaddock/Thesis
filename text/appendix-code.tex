@@ -11,9 +11,9 @@
 
 
 \section{Capsule Meshing}
-To represent the target in Hyades in any of the three available geometries (planar, cylindrical or spherical), a mesh must be created which breaks the target into a large number of smaller zones. The necessary quantities (density, temperature, pressure etc.) are calculated at the centre point of each zone, and the mesh size therefore defines both the resolution and accuracy of the simulation. 
+To represent the target in \texttt{HYADES} in any of the three available geometries (planar, cylindrical or spherical), a mesh must be created which breaks the target into a large number of smaller zones. The necessary quantities (density, temperature, pressure etc.) are calculated at the centre point of each zone, and the mesh size therefore defines both the resolution and accuracy of the simulation. 
 
-The mesh command in the HYADES input deck will create a mesh between two specified positions $R_1$ and $R_2$, with given number of zones/mesh points $n$, and a fixed ratio between successive mesh thicknesses $\alpha$. This can be applied to different regions of the capsule to create meshes with different ratios between points.
+The mesh command in the \texttt{HYADES} input deck will create a mesh between two specified positions $R_1$ and $R_2$, with given number of zones/mesh points $n$, and a fixed ratio between successive mesh thicknesses $\alpha$. This can be applied to different regions of the capsule to create meshes with different ratios between points.
 
 Typically, there are a few requirements that the mesh needs to satisfy:
 \begin{itemize}

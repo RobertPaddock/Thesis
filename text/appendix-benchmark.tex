@@ -1,8 +1,8 @@
-\chapter{Benchmarking HYADES} \label{app:benchmark}
+\chapter{Benchmarking \texttt{HYADES}} \label{app:benchmark}
 
 \minitoc
 
-In this appendix, a series of benchmarking simulations are presented. HYADES simulations were performed (using the same settings as used for the main simulation campaigns in this thesis) of experimental shots performed at Omega and the NIF, in order to assess the accuracy of the simulations. This benchmarking was not intended to be exhaustive, but to give some indication of whether the settings used in these simulations were sufficient to describe real experimental data.
+In this appendix, a series of benchmarking simulations are presented. \texttt{HYADES} simulations were performed (using the same settings as used for the main simulation campaigns in this thesis) of experimental shots performed at Omega and the NIF, in order to assess the accuracy of the simulations. This benchmarking was not intended to be exhaustive, but to give some indication of whether the settings used in these simulations were sufficient to describe real experimental data.
 
 \section{Direct-drive Omega shots}
 
@@ -11,7 +11,7 @@ The first benchmarking simulations were of 10 calibration shots, performed in a 
 \begin{figure}[ht]
 \centering
 \includegraphics{figures/LowCR/BenchmarkOmegaAbsorbtion.eps}
-\caption{Fractional absorption of the laser energy measured in simulation (black) and experiment (teal). The simulated data is obtained by measuring the absorption within the simulation, and multiplying this value by the 0.8 input power multiplier used to account for CBET.}
+\caption{Fractional absorption of the laser energy measured in simulation (black) and experiment (teal). The simulated data is obtained by measuring the absorption within the simulation, and multiplying this value by the 0.8 input power multiplier used to account for laser losses not described by the code.}
 \label{fig:OmegaAbs}
 \end{figure}
 
@@ -30,14 +30,14 @@ Figure \ref{fig:OmegaYield} shows the DT and TT neutron yields, normalised to th
 \begin{figure}[ht]
 \centering
 \includegraphics{figures/LowCR/BenchmarkOmegaBT.eps}
-\caption{Bang time and burn width for the different OMEGA shots, normalised to the experimental value. The orange/grey points are the normalised simulated data, while the blue/black points with a consistent value of 1 are the normalised experimental data.}
+\caption{Bang time and burn width normalised to the experimental value. The black represent the normalised simulated data, while the teal points with a consistent value of 1 represent the normalised experimental data.}
 \label{fig:OmegaBT}
 \end{figure}
 
 
 Figure \ref{fig:OmegaBT} displays the bang time and burn width (both normalised to the experimental values for each shot). The normalised simulated bang time varies between 0.97 and 1.05, showing close agreement with the experimental value. The normalised simulated burn width however varies between 0.4 and 0.5, and therefore significantly underestimates the experimental results. It is possible this could be due to a difference in definition of burn width; the FWHM of the neutron production rate was used for the simulated results, but details were not provided on how this was calculated from the experimental data.
 
-Overall, these results suggest that the HYADES simulations, using these settings and a laser absorption multiplier of 0.8, were sufficient to provide a reasonable estimate of experimental performance in these OMEGA shots. The TT yield and burn width were underestimated, but such parameters are not particularly important for the work discussed in this thesis. The simulations were generally able to match the bang time, laser absorption, and DT yield relatively closely; while there was some variation in the DT yield (and the laser absorption was a slight underestimate), this is to be expected given the 1D nature of the code.
+Overall, these results suggest that the \texttt{HYADES} simulations, using these settings and a laser absorption multiplier of 0.8, were sufficient to provide a reasonable estimate of experimental performance in these OMEGA shots. The TT yield and burn width were underestimated, but such parameters are not particularly important for the work discussed in this thesis. The simulations were generally able to match the bang time, laser absorption, and DT yield relatively closely; while there was some variation in the DT yield (and the laser absorption was a slight underestimate), this is to be expected given the 1D nature of the code.
 
 \section{Polar direct-drive NIF shot}
 
@@ -64,6 +64,6 @@ There is no single multiplier which perfectly describes all three data sets, but
 
 \section{Conclusions}
 
-The results in this section show that spherically-symmetric direct-drive OMEGA experimental shots could be described with reasonable accuracy using HYADES with the settings used in this thesis, including a laser input power modifier of 0.8. However, simulating a polar direct-drive NIF shot required a lower multiplier in the range of 0.55-0.6, with a multiplier of 0.8 significantly overestimating the fusion yield. This is likely due to the reduced laser absorption in polar direct-drive. This suggests that simulations performed in HYADES with these settings and a 0.8 input multiplier can be used to obtain reasonable estimates of performance for spherical direct-drive, but that less agreement is expected if a PDD experimental configuration is used.
+The results in this section show that spherically-symmetric direct-drive OMEGA experimental shots could be described with reasonable accuracy using \texttt{HYADES} with the settings used in this thesis, including a laser input power modifier of 0.8. However, simulating a polar direct-drive NIF shot required a lower multiplier in the range of 0.55-0.6, with a multiplier of 0.8 significantly overestimating the fusion yield. This is likely due to the reduced laser absorption in polar direct-drive. This suggests that simulations performed in \texttt{HYADES} with these settings and a 0.8 input multiplier can be used to obtain reasonable estimates of performance for spherical direct-drive, but that less agreement is expected if a PDD experimental configuration is used.
 
 The benchmarking here is not exhaustive. A relatively small range of capsules and implosions have been considered, and the polar direct-drive results in particular are based on only a single shot; more simulations of experimental data would be required to make firmer conclusions. However, these initial results are sufficient to indicate that the simulation models and settings used throughout this thesis are reasonable, and can be relied on to provide a reasonable level of accuracy.
