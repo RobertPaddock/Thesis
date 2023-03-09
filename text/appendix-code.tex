@@ -28,32 +28,32 @@ The meshing script used for this work was based on the below principles. The mes
 
 \subsection{Theory}
 
-In this section, the theory used to identify the number of zones $n$ and scaling $\alpha$ is described. To do this, four values are required: the start and end position of the region $R_1$, $R_2$ and the desired thickness of the first and last region $t_1, t_2$. This provides two constraints; the end zones must have these thicknesses, but the sum of all the zone thicknesses in this region also equal the overall size of the region. This leads two simultaneous equations which can be solved for $n$ and $\alpha$.
+In this section, the theory used to identify the number of zones $n$ and scaling $\alpha$ is described. This was derived from first principles for this purpose. To do this, four values are required: the start and end position of the region $R_1$, $R_2$ and the desired thickness of the first and last region $t_1, t_2$. This provides two constraints; the end zones must have these thicknesses, but the sum of all the zone thicknesses in this region also equal the overall size of the region. This leads two simultaneous equations which can be solved for $n$ and $\alpha$.
 
 \subsubsection{Derivation}
 Let $i = 1...N$ be the zone index, where $i=1$ is the first zone with radius $R_1$ and thickness $t_1$ and $i=n$ is the last zone with radius $R_n$ and thickness $t_n$. $\alpha$ is the ratio between the thickness of successive zones in this region, such that 
-\begin{equation}{\frac{t_{i+1}}{{t_i}}. = \alpha.}\end{equation}
-The thickness of zone $i$ can therefore be described as
+\begin{equation}{\frac{t_{i}}{{t_{i-1}}}. = \alpha.}\end{equation}
+The thickness of zone $i$ can therefore be described with relation to $t_1$ as
 \begin{equation}{t_i = t_1 \cdot \alpha^{i-1}.}\end{equation}
 The ratio of the thicknesses of the first and last zone can therefore be expressed 
-\begin{equation}{\frac{t_{i_n}}{{t_1}}. = \alpha^{n-1},}\end{equation}
+\begin{equation}{\frac{t_{n}}{{t_1}}. = \alpha^{n-1},}\end{equation}
 which can be rearranged to give
-\begin{equation}{\label{eqn: SimEqn1} \alpha = ( \frac{t_{i_n}}{{t_1}} )^{1/(n-1)}.}\end{equation}
+\begin{equation}{\label{eqn: SimEqn1} \alpha = ( \frac{t_{n}}{{t_1}} )^{1/(n-1)}.}\end{equation}
 As both $t_1$ and $t_n$ are known, this is a first simultaneous equation in terms of $\alpha$ and $n$.
 
 The known endpoints of the region can be used to define the region length. It is clear that the sum of all the zone thicknesses must equal this, and thus
-\begin{equation}{L = R_2 - R_1 = t_1 \cdot \sum_{i=1}^{n} \alpha^{i-1} = t_1 \cdot \sum_{i=0}^{n-1} \alpha^{i}.}\end{equation}
+\begin{equation}{L = R_n - R_1 = t_1 \cdot \sum_{i=1}^{n} \alpha^{i-1} = t_1 \cdot \sum_{i=0}^{n-1} \alpha^{i}.}\end{equation}
 The thickness of the first zone, $t_1$, can therefore be expressed in terms of the number of zones and the thickness ratio,
-\begin{equation}{t_1  = \frac{R_2 - R_1}{\sum_{i=0}^{n-1} \alpha^{i}}.}\end{equation}
+\begin{equation}{t_1  = \frac{R_n - R_1}{\sum_{i=0}^{n-1} \alpha^{i}}.}\end{equation}
 Applying the standard solution for the geometric sequence, 
 \begin{equation}{{\sum_{i=0}^{n-1} \alpha^{i}} = \frac{1 - \alpha^n}{1 - \alpha},}\end{equation}
 gives a final expression for this known thickness of 
-\begin{equation}{t_1  = ( \frac{1 - \alpha}{1 - \alpha^n} )\cdot (R_2 - R_1).}\end{equation}
+\begin{equation}{t_1  = ( \frac{1 - \alpha}{1 - \alpha^n} )\cdot (R_n - R_1).}\end{equation}
 This can be rearranged to obtain an expression for the number of zones $n$ in terms only of $\alpha$ and known quantities,
-\begin{equation}{\label{eqn: SimEqn2} n  =  \log_{\alpha} (1 - \frac{ (1-\alpha) \cdot(R_2 - R_1)}{t_1} )}\end{equation}
+\begin{equation}{\label{eqn: SimEqn2} n  =  \log_{\alpha} (1 - \frac{ (1-\alpha) \cdot(R_n - R_1)}{t_1} ), }\end{equation}
 the second simultaneous equation.
 
-The pair of simultaneous Equations \ref{eqn: SimEqn1} and \ref{eqn: SimEqn2} can then be solved numerically to return the number of zones $n$ and thickness ratio $\alpha$ required to describe the region with end positions $R_1$ and $R_2$ and thicknesses $t_1$ and $t_n$.
+The pair of simultaneous Equations \ref{eqn: SimEqn1} and \ref{eqn: SimEqn2} can then be solved numerically to return the number of zones $n$ and thickness ratio $\alpha$ required to describe the region with end positions $R_1$ and $R_n$ and thicknesses $t_1$ and $t_n$.
 
 Masses can then also be calculated for each mesh zone, by calculating the zone size and multiplying by the density of the relevant material. For a planar geometry, the zone size is proportional to the zone thickness. However, for spherical geometries, the volume of zone $i$ is proportional to $4 \pi R_i^2 \cdot t_i$ (since each zone is actually a thin shell of a sphere).
 
@@ -79,7 +79,7 @@ Under standard geometric optics, a ray $R$ can be described by a vector describi
          \]
          
 Using this formalism, the rays motion through free space and a range of optical components can be calculated. Components can be described using matrices \cite{Gerrard1975}, which are applied in sequence to the ray. For instance, the matrix describing free space propagation over a distance $d$ is
-\[M_{vacuum} = 
+\[M_{free-space} = 
 \begin{bmatrix}
            1 & d \\
            0 & 1 \\
@@ -89,7 +89,7 @@ while the matrix describing the effect of a lens with focal length $f$ is
 \[M_{lens} = 
 \begin{bmatrix}
            1 & 0 \\
-           -\frac{1}{f} & 0 \\
+           -\frac{1}{f} & 1 \\
          \end{bmatrix}.
          \]
 These matrices are applied in the order that the ray passes through them; if an initial ray $R_i$ passes through component 1 and then component 2, then the final ray $R_f$ is given by $R_f = M_2 \cdot M_{1} \cdot R_i$.
@@ -102,7 +102,7 @@ The code also recognises the image planes in the setup. It indicates the positio
 
 \section{VISAR analysis}
 \label{appdx: VISAR analysis}
-This section describes how the velocity information encoded in the VISAR fringe pattern can be obtained. This approach is based on the method first outlined by Takeda \textit{et al.} \cite{Takeda1982}, and well outlined in \cite{Celliers2004}. A step-by-step explanation is also presented by \cite{Hammel2017}
+This section describes how the velocity information encoded in the VISAR fringe pattern can be obtained. This approach is based on the method first outlined by Takeda \textit{et al.} \cite{Takeda1982}, and well outlined in \cite{Celliers2004}. A step-by-step explanation is also presented by \cite{Hammel2017}.
 
 The signal recorded on the VISAR streak camera $S(x,t)$ can be described as 
 \begin{equation} S(x,t) = B(x,t) + A(x,t) \cos[ \phi (x,t) + 2\pi f_0 x + k\epsilon ]. \end{equation}
@@ -110,17 +110,17 @@ This equation is in agreement with the pattern described in Equation \ref{eqn:VI
 \begin{equation} S(x,t) = B(x,t) + C(x,t) \exp(i2\pi f_0 x + ik\epsilon) + c.c, \end{equation} where 
 \begin{equation} C(x,t) = \frac{1}{2} A(x,t) \exp(i\phi(x,t)). \end{equation}
 To analyse this, a 1D Fourier transform is performed of the image, giving data of the form
-\begin{equation} s(f,t) = b(f,t) + c(f - f_0,t) + c*(f + f_0,t). \end{equation}
+\begin{equation} s(f,t) = b(f,t) + c(f - f_0,t) + c^{*}(f + f_0,t). \end{equation}
 In the fourier spectrum, this is displayed as 3 peaks: one at $f=0$, and one each at $f = \pm f_0$. The image is filtered so that only the top or bottom node remains,
 \begin{equation} s(f,t) = c(f - f_0,t). \end{equation}
 The data is then shifted by $f_0$ to place this peak at $f=0$, which removes the carrier frequency (the spatial fringes) from the data,
 \begin{equation} s(f,t) = c(f,t). \end{equation}
 An inverse Fourier transform is performed, giving 
-\begin{equation} D(x,t) = C(x,t) = \frac{1}{2}A(x,t)\exp(i\phi(x,t)) = \frac{1}{2}A(x,t)[\cos(\phi) + i\sin(\phi)]. \end{equation}
+\begin{multline}  D(x,t) = C(x,t) = \frac{1}{2}A(x,t)\exp(i\phi(x,t) + ik\epsilon) \\ = \frac{1}{2}A(x,t)[\cos(\phi + k\epsilon) + i\sin(\phi + k\epsilon)].  \end{multline}
 Looking at the real ($\Re$) and imaginary ($\Im$) parts of $D(x,t)$, it is clear that 
-\begin{equation} \frac{\Im[D]}{\Re[D]} = \tan(\phi), \end{equation}
+\begin{equation} \frac{\Im[D]}{\Re[D]} = \tan(\phi + k\epsilon), \end{equation}
 and therefore that the phase difference can be obtained from 
-\begin{equation} \phi = \tan^{-1}(\frac{\Im[D]}{\Re[D]}). \end{equation}
+\begin{equation} \phi + k\epsilon = \tan^{-1}(\frac{\Im[D]}{\Re[D]}). \end{equation}
 
-This returns the phase, but the data is wrapped between $-\pi$ and $\pi$. This is unwrapped to give a continuous curve without discontinuities using a phase unwrapping algorithm. Finally, this continuous curve can be converted into the surface velocity $v(x,t)$ by scaling via the VPF (since by definition, the VPF is the velocity change that occurs each complete phase shift - i.e., every phase change of $2\pi$:
+The resulting data is wrapped between $-\pi$ and $\pi$. This is unwrapped to give a continuous curve without discontinuities using a phase unwrapping algorithm, and the constant phase offset $k\epsilon$ is removed to obtain the phase difference $\phi(x,t)$ (this is obtained by performing the same analysis procedure on a reference image obtained from a stationary target, where $\phi = 0$). Finally, $\phi(x,t)$ can be converted into the surface velocity $v(x,t)$ by scaling via the VPF (since by definition, the VPF is the velocity change that occurs each complete phase shift - i.e., every phase change of $2\pi$):
 \begin{equation} v(x,t) = \frac{VPF}{2\pi} \cdot \phi(x,t). \end{equation}
