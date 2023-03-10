@@ -52,8 +52,15 @@
 % Either way, you'll have to choose and configure an appropriate bibliography format...
 
 % The science-type option: numerical in-text citation with references in order of appearance.
-\usepackage[style=numeric-comp, sorting=none, backend=biber, doi=false, isbn=false]{biblatex}
+%\usepackage[style=numeric-comp, sorting=none, backend=biber, doi=false, isbn=false]{biblatex}
+\usepackage[style=phys,  biblabel=brackets, citestyle = numeric, sorting=none, backend=biber, doi=false, isbn=false,  url = true, maxnames=5]{biblatex}
 \newcommand*{\bibtitle}{References}
+
+\DeclareFieldFormat*{url}{}
+\DeclareFieldFormat[misc]{url}{\mkbibacro{URL}\addcolon\space\url{#1}}
+%\DeclareFieldFormat*{urldate}{}
+%\DeclareFieldFormat[online]{urldate}{\mkbibparens{\bibstring{urlseen}\space#1}}
+
 
 % The humanities-type option: author-year in-text citation with an alphabetical works cited.
 %\usepackage[style=authoryear, sorting=nyt, backend=biber, maxcitenames=2, useprefix, doi=false, isbn=false]{biblatex}
